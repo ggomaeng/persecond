@@ -10,7 +10,7 @@ export default function LineBG() {
       setAnimationDone(true);
       let counter = 0;
       interval = setInterval(() => {
-        if (counter >= 95) counter *= -1;
+        if (counter >= 91) counter *= -1;
         setTick(++counter);
       }, 1000);
     }, 3500);

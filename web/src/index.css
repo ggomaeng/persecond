@@ -9,4 +9,13 @@ body {
   font-family: "Chakra Petch", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+html::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
 }

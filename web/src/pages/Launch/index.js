@@ -5,6 +5,8 @@ import Header from "components/Header";
 import Input from "components/Input";
 import { fixDecimalPlaces } from "utils/numbers";
 import { useCreateStore } from "stores/create";
+import { api } from "utils/api.js";
+import { useNavigate } from "react-router-dom";
 
 export default function Launch() {
   const {
@@ -18,6 +20,7 @@ export default function Launch() {
     setDescription,
   } = useCreateStore((state) => state);
   const [isModal, setIsModal] = React.useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="flex h-screen flex-col justify-center padded-horizontal">
@@ -104,7 +107,15 @@ export default function Launch() {
           {description.length} / {360}
         </div>
       </StepBase>
-      <Button className="mt-5 flex items-center justify-center font-semibold">
+      <Button
+        className="mt-5 flex items-center justify-center font-semibold"
+        onClick={async () => {
+          const result = await api.post("").json();
+          const { roomId, id } = result;
+          navigate(`/rooms/${roomId}`);
+          console.log(result);
+        }}
+      >
         Create link to join
       </Button>
     </div>

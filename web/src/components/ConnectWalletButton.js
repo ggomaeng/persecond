@@ -6,22 +6,7 @@ import { abbreviateAddress } from "utils/address.js";
 
 export default function ConnectWalletButton() {
   const [modalVisible, setModalVisible] = useState(false);
-  const {
-    connect,
-    account,
-    network,
-    connected,
-    disconnect,
-    wallet,
-    wallets,
-    signAndSubmitTransaction,
-    signTransaction,
-    signMessage,
-    signMessageAndVerify,
-  } = useWallet();
-
-  // console.log(WALLET_NAMES);
-  // console.log(account);
+  const { connect, account, connected, disconnect, wallets } = useWallet();
 
   useEffect(() => {
     if (connected) setModalVisible(false);

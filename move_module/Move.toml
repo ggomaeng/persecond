@@ -1,5 +1,5 @@
 [package]
-name = 'counter'
+name = 'payment_stream'
 version = '1.0.0'
 
 [addresses]

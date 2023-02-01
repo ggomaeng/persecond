@@ -14,12 +14,8 @@ module.exports = {
         maxscreen: "1500px",
         fullscreen: "1280px",
         laptop: "1024px",
-        minting: "920px",
         detail: "840px",
         tablet: "768px",
-        mobile: "600px",
-      },
-      screens: {
         mobile: "425px",
       },
       keyframes: {

@@ -73,7 +73,7 @@ export default function Launch() {
           <div className="relative h-full">
             <div
               className={`absolute top-0 left-0 z-10 w-full flex-col border border-input-border bg-bg transition-opacity duration-500 ${
-                isModal ? "opacity-1" : "opacity-0"
+                isModal ? "opacity-1" : "pointer-events-none opacity-0"
               }`}
             >
               <DurationOptionButton value={0.25} />

@@ -23,7 +23,7 @@ export default function Join() {
       <div className="flex flex-col tablet:flex-row">
         <div className="flex flex-col gap-5.5 tablet:w-1/2">
           <img src="/assets/aptos-logo@2x.png" alt="" />
-          <div className="border-1 w-full border border-primary bg-[#170726] p-5 text-secondary">
+          <div className="border-1 w-full border border-primary bg-modal-bg p-5 text-secondary">
             <div className="text-2xl text-primary">Session information</div>
             <div className="mt-2">
               Price:

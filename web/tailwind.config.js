@@ -7,6 +7,7 @@ module.exports = {
         primary: "#dfcefd",
         secondary: "#8a6eaa",
         "input-border": "#2a1636",
+        "modal-bg": "#170726",
         bg: "#150c1d",
         "dark-purple": "#463b53",
       },
@@ -33,8 +34,8 @@ module.exports = {
         },
         pop: {
           "0%": { transform: "scale(1)", opacity: "1", color: "#463b53" },
-          "15%": { transform: "scale(1.08)", opacity: "0.8", color: "#463b53" },
-          "25%,100%": { transform: "scale(1)", opacity: "1", color: "#463b53" },
+          "12%": { transform: "scale(1.07)", opacity: "0.8" },
+          "20%,100%": { transform: "scale(1)", opacity: "1", color: "#463b53" },
         },
       },
       animation: {
@@ -44,6 +45,7 @@ module.exports = {
       },
       fontSize: {
         "3xl": ["32px", "40px"],
+        "2xl": ["22px", "30px"],
       },
       spacing: {
         15: "3.75rem",

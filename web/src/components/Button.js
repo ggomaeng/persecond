@@ -27,7 +27,7 @@ export default function Button({
         onPointerEnter={() => setHovering(true)}
         onPointerLeave={() => setHovering(false)}
         className={twMerge(
-          "relative z-[1] h-[40px] min-w-[200px] border border-primary bg-bg text-primary transition-all hover:bg-primary hover:text-black",
+          "relative z-[1] h-[40px] min-w-[140px] border border-primary bg-bg px-4 text-primary transition-all hover:bg-primary hover:text-black",
           className
         )}
       >

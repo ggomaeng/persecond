@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&display=swap");
+
+body {
+  margin: 0;
+  background-color: #150c1d;
+  font-family: "Chakra Petch", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+html {
+  @extend .hide-scrollbar;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+
+  &::-webkit-scrollbar,
+  &::-webkit-scrollbar-track-piece {
+    width: 0px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 0px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 0px;
+    border: 0px solid transparent;
+    background-clip: content-box;
+    background-color: transparent;
+    width: 0px;
+  }
+}

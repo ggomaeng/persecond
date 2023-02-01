@@ -1,7 +1,17 @@
 import Router from "./Router.js";
 
+import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
+import { WALLETS } from "constants/wallets.js";
+
 function App() {
-  return <Router />;
+  return (
+    <AptosWalletAdapterProvider plugins={WALLETS}>
+      <>
+        <Router />
+        <div id="portal" />
+      </>
+    </AptosWalletAdapterProvider>
+  );
 }
 
 export default App;

@@ -19,6 +19,9 @@ module.exports = {
         tablet: "768px",
         mobile: "600px",
       },
+      screens: {
+        mobile: "425px",
+      },
       keyframes: {
         fade: {
           "0%": { opacity: "0" },

@@ -1,3 +1,4 @@
+import ConnectWalletButton from "components/ConnectWalletButton.js";
 import React from "react";
 import LineBG from "./LineBG.js";
 
@@ -13,6 +14,7 @@ export default function LandingSectionOne() {
           src="/assets/logo-full-white@2x.png"
           alt=""
         />
+        <ConnectWalletButton />
         <div className="mt-[80px] text-center text-[60px] font-bold text-primary">
           <div>Connect in seconds,</div>
           <div>get paid by seconds</div>

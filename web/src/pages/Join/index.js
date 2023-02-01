@@ -51,7 +51,9 @@ export default function Join() {
           </StepBase>
           <StepBase count={2} title="Validation check">
             <div className="flex items-start gap-2">
-              <img src="/assets/check-green.svg" className="w-5.5" alt="" />
+              <div className="flex h-7 items-center">
+                <img src="/assets/check-green.svg" className="w-5.5" alt="" />
+              </div>
               <div className="flex flex-col">
                 <div>Sufficent balance to make a deposit to join</div>
                 <div>
@@ -64,7 +66,9 @@ export default function Join() {
               </div>
             </div>
             <div className="mt-2 flex items-start gap-2">
-              <img src="/assets/check-grey.svg" className="w-5.5" alt="" />
+              <div className="flex h-7 items-center">
+                <img src="/assets/check-grey.svg" className="w-5.5" alt="" />
+              </div>
               <div className="flex flex-col">
                 <div>Need to approve USDC</div>
                 <Button className="mt-2.5 flex items-center justify-center font-semibold">

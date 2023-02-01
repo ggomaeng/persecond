@@ -9,6 +9,8 @@ import {
 import { useParams } from "react-router-dom";
 import { api } from "utils/api.js";
 import Container from "pages/Room/Container.js";
+import Chat from "pages/Room/Chat.js";
+import Controls from "pages/Room/Controls.js";
 
 export default function Room() {
   const { roomId } = useParams();
@@ -35,7 +37,13 @@ export default function Room() {
         token={process.env.REACT_APP_VIDEOSDK_TOKEN}
       >
         <MeetingConsumer>
-          {() => <Container meetingId={roomId} />}
+          {() => (
+            <>
+              <Container meetingId={roomId} />
+              <Controls />
+              <Chat />
+            </>
+          )}
         </MeetingConsumer>
       </MeetingProvider>
     </div>

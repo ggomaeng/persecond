@@ -1,5 +1,4 @@
 import { useMeeting } from "@videosdk.live/react-sdk";
-import Controls from "pages/Room/Controls.js";
 import VideoComponent from "pages/Room/VideoComponent.js";
 import React, { useState } from "react";
 
@@ -17,7 +16,6 @@ export default function Container(props) {
       <h3 className="text-white">Meeting Id: {props.meetingId}</h3>
       {joined ? (
         <div>
-          <Controls />
           {[...participants.keys()].map((participantId) => (
             <VideoComponent participantId={participantId} />
           ))}

@@ -1,7 +1,8 @@
 import Landing from "pages/Landing/index.js";
-import Launch from "pages/Launch/index.js";
-import Join from "pages/Join/index.js";
+import Launch from "pages/Join/index.js";
+import Join from "pages/Launch/index.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import HostResult from "pages/HostResult/index.js";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
   {
     path: "/join",
     element: <Join />,
+  },
+  {
+    path: "/result",
+    element: <HostResult />,
   },
 ]);
 

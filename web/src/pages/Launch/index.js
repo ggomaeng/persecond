@@ -38,6 +38,7 @@ export default function Launch() {
       <StepBase count={2} title="Title of the session">
         <Input
           value={title}
+          limit={80}
           onChange={setTitle}
           placeholder="Be clear and descriptive."
         >

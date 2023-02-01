@@ -6,7 +6,7 @@ export const useCreateStore = create((set) => ({
   duration: 0.25,
   description: "",
   setTitle: (title) => set({ title }),
-  setPrice: (num) => set({ rate: num }),
+  setPrice: (num) => set({ price: num }),
   setDuration: (num) => set({ duration: num }),
   setDescription: (description) => set({ description }),
 }));

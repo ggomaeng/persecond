@@ -15,7 +15,7 @@ module.exports = {
         fullscreen: "1280px",
         laptop: "1024px",
         detail: "840px",
-        tablet: "768px",
+        tablet: "600px",
         mobile: "425px",
       },
       keyframes: {

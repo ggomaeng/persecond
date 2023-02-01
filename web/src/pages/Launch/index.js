@@ -1,5 +1,5 @@
 import React from "react";
-import StepBase from "./StepBase";
+import StepBase from "../Join/StepBase";
 import Button from "components/Button";
 import Header from "components/Header";
 import Input from "components/Input";
@@ -9,11 +9,11 @@ import { useCreateStore } from "stores/create";
 export default function Launch() {
   const {
     title,
-    rate,
+    price,
     duration,
     description,
     setTitle,
-    setRate,
+    setPrice,
     setDuration,
     setDescription,
   } = useCreateStore((state) => state);
@@ -47,15 +47,15 @@ export default function Launch() {
         </Input>
       </StepBase>
       <div className="flex flex-col tablet:grid tablet:grid-cols-2 tablet:gap-[80px]">
-        <StepBase count={3} title="Hourly rate">
+        <StepBase count={3} title="Hourly price">
           <Input
             type="number"
-            value={rate}
-            onChange={setRate}
+            value={price}
+            onChange={setPrice}
             placeholder="0.00"
           >
             <div className="ml-2 mt-1">
-              {fixDecimalPlaces(rate, 2)} USDC / second
+              {fixDecimalPlaces(price, 2)} USDC / second
             </div>
             <div className="absolute right-4 top-3 text-lg">USDC</div>
           </Input>
@@ -64,7 +64,7 @@ export default function Launch() {
           <Button
             onClick={() => setIsModal(!isModal)}
             className="h-[54px] w-full border-input-border px-4 text-start text-lg text-secondary"
-            image="/assets/arrow-down@2x.svg"
+            image="/assets/arrow-down.svg"
             imageClassName={`absolute right-4 top-4 ${isModal && "rotate-180"}`}
           >
             {handleDurationTitle(duration)}
@@ -75,12 +75,12 @@ export default function Launch() {
                 isModal ? "opacity-1" : "opacity-0"
               }`}
             >
-              <DurationOptionButton value={0.25} label="15 minute" />
-              <DurationOptionButton value={0.5} label="30 minutes" />
-              <DurationOptionButton value={1} label="1 hour" />
-              <DurationOptionButton value={2} label="2 hours" />
-              <DurationOptionButton value={3} label="3 hours" />
-              <DurationOptionButton value={4} label="4 hours" />
+              <DurationOptionButton value={0.25} />
+              <DurationOptionButton value={0.5} />
+              <DurationOptionButton value={1} />
+              <DurationOptionButton value={2} />
+              <DurationOptionButton value={3} />
+              <DurationOptionButton value={4} />
             </div>
           </div>
           <div className="ml-2 mt-1">
@@ -109,7 +109,7 @@ export default function Launch() {
     </div>
   );
 
-  function DurationOptionButton({ value, label }) {
+  function DurationOptionButton({ value }) {
     return (
       <Button
         onClick={() => {
@@ -118,7 +118,7 @@ export default function Launch() {
         }}
         className="h-[54px] w-full border-input-border px-4 text-start text-lg text-secondary"
       >
-        {label}
+        {handleDurationTitle(value)}
       </Button>
     );
   }

@@ -1,5 +1,6 @@
 import Landing from "pages/Landing/index.js";
 import Launch from "pages/Launch/index.js";
+import Join from "pages/Join/index.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -10,6 +11,10 @@ const router = createBrowserRouter([
   {
     path: "/launch",
     element: <Launch />,
+  },
+  {
+    path: "/join",
+    element: <Join />,
   },
 ]);
 

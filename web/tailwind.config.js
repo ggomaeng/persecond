@@ -5,8 +5,19 @@ module.exports = {
     extend: {
       colors: {
         primary: "#dfcefd",
+        secondary: "#8a6eaa",
+        "input-border": "#2a1636",
         bg: "#150c1d",
         "dark-purple": "#463b53",
+      },
+      screens: {
+        maxscreen: "1500px",
+        fullscreen: "1280px",
+        laptop: "1024px",
+        minting: "920px",
+        detail: "840px",
+        tablet: "768px",
+        mobile: "600px",
       },
       keyframes: {
         fade: {

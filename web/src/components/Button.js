@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
-export default function Button({ className, children, icon, ...props }) {
+export default function Button({ className, children, icon, image, ...props }) {
   const [hovering, setHovering] = useState(false);
   return (
     <div className="relative">
@@ -24,6 +24,7 @@ export default function Button({ className, children, icon, ...props }) {
           className
         )}
       >
+        {image && <img src={image} className="mr-2 h-5 w-5" alt="wallet" />}
         {children}
       </button>
     </div>

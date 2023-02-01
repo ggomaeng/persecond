@@ -3,6 +3,7 @@ import Launch from "pages/Launch/index.js";
 import Join from "pages/Join/index.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Result from "pages/Result/index.js";
+import Room from "pages/Room/index.js";
 
 const router = createBrowserRouter([
   {

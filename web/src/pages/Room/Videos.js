@@ -43,8 +43,6 @@ export default function Videos(props) {
     }
   };
 
-  if (!joined) return null;
-
   return (
     <div className="relative flex h-full flex-grow flex-wrap gap-[20px]">
       {take([...participants.values()], 2).map(({ id, displayName }) => (

@@ -21,14 +21,6 @@ export default function Join() {
   const { signAndSubmitTransaction } = useWallet();
   const navigate = useNavigate();
 
-  // const data = {
-  //   title: "Aptos' Mo Shaikh on the Move Moment",
-  //   description:
-  //     "Aptos' Mo Shaikh on the Move Moment - Messari Mainnet 2022. Libra died, but its smart-contract language lives on. Move is used by the buzziest chains of the moment, including Aptos. Its co-founder Mo Shaikh tells us why it's worth billions despite publishing its whitepaper last month.",
-  //   price: 0.02,
-  //   duration: 16,
-  // };
-
   useEffect(() => {
     async function getRoomInfo() {
       console.log(roomId);
@@ -45,18 +37,20 @@ export default function Join() {
   }, []);
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center padded-horizontal">
+    <div className="my-[100px] flex min-h-screen flex-col items-center justify-center padded-horizontal tablet:my-0">
       <div className="flex w-[800px] max-w-full flex-col">
         <Header />
-        <h1 className="text-3xl text-primary">Join the perSecond meeting</h1>
-        <h2 className="mt-1 text-lg text-secondary">
+        <h1 className="text-2xl text-primary mobile:text-3xl">
+          Join the perSecond meeting
+        </h1>
+        <h2 className="mt-1 text-base text-secondary mobile:text-lg">
           You have received a request for a perSecond meeting. You will be paid
           according to the rate set by the requester for the exact amount of
           time spent in the meeting.
         </h2>
         <hr className="mt-5 mb-10 border-input-border" />
-        <div className="flex flex-col gap-[40px] tablet:flex-row">
-          <div className="flex flex-col gap-[20px]">
+        <div className="flex flex-col gap-[40px] detail:flex-row">
+          <div className="flex flex-col items-center gap-[20px]">
             <div className="relative flex min-h-[300px] w-[440px] items-center justify-center overflow-hidden border border-[#2a1636]">
               <Webcam videoConstraints={{ facingMode: "user" }} widith={440} />
             </div>

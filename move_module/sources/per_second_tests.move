@@ -1,5 +1,5 @@
 #[test_only]
-module publisher::payment_stream_test {
+module publisher::payment_stream_tests {
     use aptos_framework::aptos_account;
     use aptos_framework::coin;
     use aptos_framework::aptos_coin::{Self, AptosCoin};
@@ -100,7 +100,9 @@ module publisher::payment_stream_test {
 
         per_second::create_session<AptosCoin>(requester, 3600, 2, string::utf8(b"room_abc"));
         per_second::join_session<AptosCoin>(receiver, requester_addr);
+        assert!(coin::balance<AptosCoin>(receiver_addr) == 0, 1); // didn't get paid yet
 
+        // Check session data
         let (
             started_at,
             finished_at,
@@ -109,7 +111,7 @@ module publisher::payment_stream_test {
             room_id,
             receiver,
             deposit_amount
-        ) = per_second::get_session<AptosCoin>(requester_addr);
+        ) = per_second::get_session_data<AptosCoin>(requester_addr);
 
         assert!(started_at == 0, 1);
         assert!(finished_at == 0, 1);
@@ -119,6 +121,5 @@ module publisher::payment_stream_test {
         assert!(receiver == receiver_addr, 1);
         assert!(deposit_amount == 7200, 1);
 
-        assert!(coin::balance<AptosCoin>(receiver_addr) == 0, 1); // didn't get paid yet
     }
 }

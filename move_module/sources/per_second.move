@@ -152,8 +152,8 @@ module publisher::per_second {
         }
     }
 
-    #[view]
-    public fun get_session<CoinType>(requester_addr: address): (u64, u64, u64, u64, string::String, address, u64) acquires Session {
+    #[test_only]
+    public fun get_session_data<CoinType>(requester_addr: address): (u64, u64, u64, u64, string::String, address, u64) acquires Session {
         let session = borrow_global<Session<CoinType>>(requester_addr);
 
         return (

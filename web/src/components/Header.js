@@ -9,7 +9,9 @@ export default function Header() {
         <img className="h-8 w-8" src="/assets/logo-single@2x.png" alt="" />
       </Link>
       <Link to="/launch">
-        <Button icon="🚀">Launch perSecond</Button>
+        <Button className="font-bold" icon="🚀">
+          Launch perSecond
+        </Button>
       </Link>
     </header>
   );

@@ -50,6 +50,10 @@ module.exports = {
           "0%": { transform: "rotate(0deg)" },
           "100%": { transform: "rotate(180deg)" },
         },
+        rotate360: {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
         pop: {
           "0%": { transform: "scale(1)", opacity: "1", color: "#463b53" },
           "12%": { transform: "scale(1.05)", opacity: "0.8" },
@@ -62,6 +66,7 @@ module.exports = {
         growYmobileRed: "growY71 1.5s ease-in-out forwards",
         growYRed: "growY90 1.5s ease-in-out forwards",
         rotate180: "rotate180 1.5s ease-in-out forwards",
+        rotate360: "rotate360 1.5s linear infinite forwards",
         "pop-by-sec": "pop 1s infinite",
         fadeIn: "fade 125ms ease-in-out forwards",
         fadeOut: "fadeO 1s ease-in-out forwards",

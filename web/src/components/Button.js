@@ -5,6 +5,7 @@ export default function Button({
   className,
   imageClassName,
   children,
+  loading = true,
   icon,
   image,
   ...props
@@ -42,7 +43,18 @@ export default function Button({
             alt={image}
           />
         )}
-        {children}
+
+        {loading ? (
+          <img
+            className={`animate-rotate360 ${hovering && "invert"}`}
+            src="/assets/spinner.svg"
+            width={24}
+            height={24}
+            alt="spinner"
+          />
+        ) : (
+          children
+        )}
       </button>
     </div>
   );

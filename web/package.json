@@ -15,6 +15,7 @@
     "@trustwallet/aptos-wallet-adapter": "^0.1.6",
     "@videosdk.live/react-sdk": "^0.1.61",
     "aptos": "^1.6.0",
+    "css-doodle": "^0.32.2",
     "fewcha-plugin-wallet-adapter": "^0.1.1",
     "ky": "^0.33.2",
     "msafe-plugin-wallet-adapter": "^0.1.0",

@@ -52,3 +52,52 @@ html {
     width: 0px;
   }
 }
+
+
+css-doodle {
+    --color: @p(#2a1636, #8a6eaa, #2a1636, #170726);
+    --rule: (
+      :doodle {
+        @grid: 30x1 / 18vmin;
+        --deg: @p(-180deg, 180deg);
+      }
+      :container {
+        perspective: 30vmin;
+      }
+      :after, :before {
+        content: '';
+        background: var(--color); 
+        @place-cell: @r(100%) @r(100%);
+        @size: @r(2px);
+        @shape: circle;
+      }
+    
+      @place-cell: center;
+      @size: 100%;
+    
+      box-shadow: @m2(0 0 50px var(--color));
+      background: @m100(
+        radial-gradient(var(--color) 50%, transparent 0) 
+        @r(-20%, 120%) @r(-20%, 100%) / 1px 1px
+        no-repeat
+      );
+    
+      will-change: transform, opacity;
+      animation: scale-up 20s linear infinite;
+      animation-delay: calc(-20s / @I * @i);
+
+      @keyframes scale-up {
+        0%, 95.01%, 100% {
+          transform: translateZ(0) rotate(0);
+          opacity: 0;
+        }
+        10% { 
+          opacity: 1; 
+        }
+        95% {
+          transform: 
+            translateZ(35vmin) rotateZ(@var(--deg));
+        }
+      }
+    )
+  }

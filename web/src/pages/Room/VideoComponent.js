@@ -11,6 +11,7 @@ import { aptosClient, CONTRACT_ADDRESS } from "utils/aptos.js";
 export default function VideoComponent(props) {
   const micRef = useRef(null);
   const { wallet } = useParams();
+  const session = useRoomStore((state) => state.session);
   const [starting, setStarting] = useState(false);
   const { account, signAndSubmitTransaction } = useWallet();
   const { webcamStream, micStream, setQuality, webcamOn, micOn, isLocal } =
@@ -91,9 +92,12 @@ export default function VideoComponent(props) {
         <>
           {account?.address === wallet && isLocal && (
             <div className="absolute bottom-0 w-full border border-primary bg-[#170726] p-5 text-lg">
-              The meeting is ready. 200 APT will be held as full-duration
-              deposit for this meeting. Any remaining balance will be refunded
-              to the requestee based on actual meeting time.
+              <div className="font-bold">The meeting is ready to start 👀</div>
+              <div className="mt-2">
+                Sign the transaction below to begin. Any remaining balance will
+                be refunded to the requestee based on actual meeting time.
+                Microphones will be enabled once the transaction is signed.
+              </div>
               <Button
                 className="mt-5"
                 loading={starting}

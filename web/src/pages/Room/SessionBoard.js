@@ -18,7 +18,6 @@ export default function SessionBoard({ isHost = true }) {
       </div>
       <div className="mt-2.5 flex font-bold text-primary">
         {fixDecimalPlaces(spent, 8)} APT
-        <span className="ml-1 font-normal text-secondary">spent</span>
       </div>
       <div>Max Duration: {formatHours(session.max_duration / 3600)}</div>
     </div>

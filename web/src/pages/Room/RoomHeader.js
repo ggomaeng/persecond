@@ -18,7 +18,7 @@ export default function RoomHeader() {
   useEffect(() => {
     if (messages.length > 0) {
       console.log(messages);
-      navigate(`/result/${messages?.[0]}`);
+      navigate(`/result/${messages?.[0]?.message}`);
     }
   }, [messages]);
 
@@ -52,7 +52,6 @@ export default function RoomHeader() {
             const response = await signAndSubmitTransaction(payload);
             // if you want to wait for transaction
             await aptosClient.waitForTransaction(response?.hash || "");
-            navigate(`/result/${wallet}`);
             await publish(response.hash);
             console.log(response, response?.hash);
           } catch (error) {

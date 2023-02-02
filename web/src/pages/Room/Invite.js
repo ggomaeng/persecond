@@ -4,8 +4,8 @@ import { toast } from "react-hot-toast";
 import { useParams } from "react-router-dom";
 
 export default function Invite() {
-  const { wallet } = useParams();
-  const link = `${window.location.origin}/join/${wallet}}`;
+  const { wallet, roomId } = useParams();
+  const link = `${window.location.origin}/join/${wallet}/${roomId}`;
   return (
     <div
       className={`relative flex h-full w-full flex-grow flex-col items-center justify-center border border-primary/50 mobile:w-[calc(50%-10px)]`}

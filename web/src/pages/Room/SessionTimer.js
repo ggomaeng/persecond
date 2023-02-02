@@ -5,7 +5,6 @@ import { getHourMinuteSeconds } from "utils/numbers";
 
 export default function SessionTimer({ delay = 0, onTick }) {
   const session = useRoomStore((state) => state.session);
-  console.log(session);
   const { started_at, max_duration } = session;
   const [timeState, setTimeState] = useState({
     hours: 0,

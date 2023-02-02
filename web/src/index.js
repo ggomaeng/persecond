@@ -30,7 +30,7 @@ const router = createBrowserRouter([
         element: <Launch />,
       },
       {
-        path: "join/:wallet",
+        path: "join/:wallet/:roomId",
         element: <Join />,
       },
       {

@@ -4,7 +4,7 @@ import Invite from "pages/Room/Invite.js";
 import VideoComponent from "pages/Room/VideoComponent.js";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppStore } from "stores/app.js";
 import { useRoomStore } from "stores/room.js";
 import { getSession } from "utils/aptos.js";
@@ -15,6 +15,7 @@ export default function Videos(props) {
   const setFullLoading = useAppStore((state) => state.setFullLoading);
   const setCanStart = useRoomStore((state) => state.setCanStart);
   const setSession = useRoomStore((state) => state.setSession);
+  const navigate = useNavigate();
   const [joined, setJoined] = useState(false);
   const { join, participants, leave } = useMeeting({
     onConnectionOpen: (e) => {
@@ -42,22 +43,17 @@ export default function Videos(props) {
 
   useEffect(() => {
     let interval;
-    let initialCheck = true;
     async function checkSigned() {
       try {
         const session = await getSession(wallet);
         const { started_at } = session;
         console.log(session);
         setSession(session);
-        if (started_at !== "0") {
-          if (initialCheck) {
-            toast.success("Session started");
-          }
+        if (started_at !== "0" && participants.size >= 2) {
+          toast.success("Session started");
           setCanStart(true);
           clearInterval(interval);
         }
-
-        initialCheck = false;
       } catch (e) {
         toastError(e);
       }
@@ -83,6 +79,18 @@ export default function Videos(props) {
   const joinMeeting = async () => {
     setFullLoading(true);
     try {
+      const session = await getSession(wallet);
+      if (session.finished_at !== "0") {
+        setFullLoading(false);
+        toast.error("This session has been finished", { icon: "⏰" });
+        navigate("/");
+        return;
+      } else if (session.room_id !== roomId) {
+        setFullLoading(false);
+        toast.error("This link is not valid", { icon: "🔗" });
+        navigate("/");
+      }
+      setSession(session);
       await join();
     } catch (e) {
       toastError(e);

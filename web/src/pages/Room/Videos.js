@@ -61,7 +61,7 @@ export default function Videos(props) {
 
     console.log(participants.size);
     checkSigned();
-    interval = setInterval(checkSigned, 10000);
+    interval = setInterval(checkSigned, 2000);
 
     return () => interval && clearInterval(interval);
   }, [participants]);

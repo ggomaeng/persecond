@@ -115,7 +115,9 @@ export default function Join() {
                     loading={joining}
                     onClick={async () => {
                       if (network?.name !== "Devnet") {
-                        toast("Please switch your network to Devnet");
+                        toast("Please switch your network to Devnet", {
+                          icon: "⚠️",
+                        });
                         return;
                       }
                       const payload = {

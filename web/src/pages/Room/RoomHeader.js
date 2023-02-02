@@ -5,6 +5,7 @@ import ConnectWalletButton from "components/ConnectWalletButton.js";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
+import { useRoomStore } from "stores/room.js";
 import { aptosClient, CONTRACT_ADDRESS } from "utils/aptos.js";
 import { toastError } from "utils/toasts.js";
 
@@ -12,6 +13,8 @@ export default function RoomHeader() {
   const { wallet } = useParams();
   const { network, signAndSubmitTransaction } = useWallet();
   const { publish, messages } = usePubSub("TRANSACTION_END");
+  const [starting, setStarting] = useState(false);
+  const session = useRoomStore((state) => state.session);
   const navigate = useNavigate();
   const [closing, setClosing] = useState(false);
 
@@ -33,36 +36,74 @@ export default function RoomHeader() {
         {/* <div className="ml-[20px] text-[22px]">Some cool room title</div> */}
         <ConnectWalletButton />
       </div>
-      <Button
-        loading={closing}
-        onClick={async () => {
-          if (network?.name !== "Devnet") {
-            toast("Please switch your network to Devnet");
-            return;
-          }
-          setClosing(true);
+      {session?.started_at === "0" ? (
+        <Button
+          loading={starting}
+          onClick={async () => {
+            if (network?.name !== "Devnet") {
+              toast("Please switch your network to Devnet", {
+                icon: "⚠️",
+              });
+              return;
+            }
+            try {
+              setStarting(true);
+              const payload = {
+                type: "entry_function_payload",
+                function: `${CONTRACT_ADDRESS}::start_session`,
+                type_arguments: ["0x1::aptos_coin::AptosCoin"],
+                arguments: [], // 1 is in Octas
+              };
 
-          try {
-            const payload = {
-              type: "entry_function_payload",
-              function: `${CONTRACT_ADDRESS}::close_session`,
-              type_arguments: ["0x1::aptos_coin::AptosCoin"],
-              arguments: [wallet], // 1 is in Octas
-            };
-            const response = await signAndSubmitTransaction(payload);
-            // if you want to wait for transaction
-            await aptosClient.waitForTransaction(response?.hash || "");
-            await publish(response.hash);
-            console.log(response, response?.hash);
-          } catch (error) {
-            toastError(error);
-          } finally {
-            setClosing(false);
-          }
-        }}
-      >
-        Finish the session
-      </Button>
+              const response = await signAndSubmitTransaction(payload);
+              // if you want to wait for transaction
+              await aptosClient.waitForTransaction(response?.hash || "");
+              console.log(response, response?.hash);
+            } catch (error) {
+              console.log("error", error);
+            } finally {
+              setStarting(false);
+            }
+            // const result = await api.post("").json();
+            // const { wallet, id } = result;
+            // navigate(`/rooms/${wallet}`);
+            // console.log(result);
+          }}
+        >
+          Start Session
+        </Button>
+      ) : (
+        <Button
+          loading={closing}
+          onClick={async () => {
+            if (network?.name !== "Devnet") {
+              toast("Please switch your network to Devnet");
+              return;
+            }
+            setClosing(true);
+
+            try {
+              const payload = {
+                type: "entry_function_payload",
+                function: `${CONTRACT_ADDRESS}::close_session`,
+                type_arguments: ["0x1::aptos_coin::AptosCoin"],
+                arguments: [wallet], // 1 is in Octas
+              };
+              const response = await signAndSubmitTransaction(payload);
+              // if you want to wait for transaction
+              await aptosClient.waitForTransaction(response?.hash || "");
+              await publish(response.hash);
+              console.log(response, response?.hash);
+            } catch (error) {
+              toastError(error);
+            } finally {
+              setClosing(false);
+            }
+          }}
+        >
+          Finish Session
+        </Button>
+      )}
     </div>
   );
 }

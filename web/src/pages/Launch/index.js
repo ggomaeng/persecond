@@ -135,7 +135,9 @@ export default function Launch() {
         onClick={async () => {
           try {
             if (network?.name !== "Devnet") {
-              toast("Please switch your network to Devnet");
+              toast("Please switch your network to Devnet", {
+                icon: "⚠️",
+              });
               return;
             }
             setLoading(true);

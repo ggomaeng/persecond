@@ -2,6 +2,7 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useParticipant } from "@videosdk.live/react-sdk";
 import Button from "components/Button.js";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 import ReactPlayer from "react-player";
 import { useParams } from "react-router-dom";
 import { useRoomStore } from "stores/room.js";
@@ -11,7 +12,7 @@ import { aptosClient, CONTRACT_ADDRESS } from "utils/aptos.js";
 export default function VideoComponent(props) {
   const micRef = useRef(null);
   const { wallet } = useParams();
-  const session = useRoomStore((state) => state.session);
+  const { network } = useWallet();
   const [starting, setStarting] = useState(false);
   const { account, signAndSubmitTransaction } = useWallet();
   const { webcamStream, micStream, setQuality, webcamOn, micOn, isLocal } =
@@ -78,58 +79,76 @@ export default function VideoComponent(props) {
         />
       ) : (
         <div className="flex h-full w-full flex-grow flex-col items-center justify-center border border-primary/50">
-          <div className="rounded-lg bg-primary p-2 text-sm text-bg">
+          <div className="rounded-full bg-primary p-5 text-sm font-bold uppercase text-bg">
             {abbreviateAddress(displayName)}
           </div>
         </div>
       )}
 
-      <div className="absolute top-5 left-5 rounded-md bg-black px-2 py-1 text-sm text-white">
+      <div className="absolute top-5 left-5 rounded-md bg-black px-2 py-1 text-sm font-semibold text-white">
         {abbreviateAddress(displayName)}
       </div>
 
+      {!micOn && (
+        <div className="absolute top-5 right-5 rounded-md bg-red-500 px-2 py-1 text-sm font-semibold text-white">
+          MUTED
+        </div>
+      )}
+
       {size >= 2 && !canStart && (
         <>
-          {account?.address === wallet && isLocal && (
-            <div className="absolute bottom-0 w-full border border-primary bg-[#170726] p-5 text-lg">
-              <div className="font-bold">The meeting is ready to start 👀</div>
-              <div className="mt-2">
-                Sign the transaction below to begin. Any remaining balance will
-                be refunded to the requestee based on actual meeting time.
-                Microphones will be enabled once the transaction is signed.
-              </div>
-              <Button
-                className="mt-5"
-                loading={starting}
-                onClick={async () => {
-                  try {
-                    setStarting(true);
-                    const payload = {
-                      type: "entry_function_payload",
-                      function: `${CONTRACT_ADDRESS}::start_session`,
-                      type_arguments: ["0x1::aptos_coin::AptosCoin"],
-                      arguments: [], // 1 is in Octas
-                    };
+          {account?.address?.toLowerCase?.() === wallet?.toLowerCase?.() &&
+            isLocal && (
+              <div className="absolute bottom-0 z-[5] w-full border border-primary bg-[#170726] p-5 text-lg">
+                <div className="font-bold">
+                  The meeting is ready to start 👀
+                </div>
+                <div className="mt-2">
+                  Sign the transaction below to begin. Any remaining balance
+                  will be refunded to the requestee based on actual meeting
+                  time. Microphones will be enabled once the transaction is
+                  signed.
+                </div>
+                <Button
+                  className="mt-5"
+                  loading={starting}
+                  onClick={async () => {
+                    if (network?.name !== "Devnet") {
+                      toast("Please switch your network to Devnet", {
+                        icon: "⚠️",
+                      });
+                      return;
+                    }
+                    try {
+                      setStarting(true);
+                      const payload = {
+                        type: "entry_function_payload",
+                        function: `${CONTRACT_ADDRESS}::start_session`,
+                        type_arguments: ["0x1::aptos_coin::AptosCoin"],
+                        arguments: [], // 1 is in Octas
+                      };
 
-                    const response = await signAndSubmitTransaction(payload);
-                    // if you want to wait for transaction
-                    await aptosClient.waitForTransaction(response?.hash || "");
-                    console.log(response, response?.hash);
-                  } catch (error) {
-                    console.log("error", error);
-                  } finally {
-                    setStarting(false);
-                  }
-                  // const result = await api.post("").json();
-                  // const { wallet, id } = result;
-                  // navigate(`/rooms/${wallet}`);
-                  // console.log(result);
-                }}
-              >
-                Start payment stream
-              </Button>
-            </div>
-          )}
+                      const response = await signAndSubmitTransaction(payload);
+                      // if you want to wait for transaction
+                      await aptosClient.waitForTransaction(
+                        response?.hash || ""
+                      );
+                      console.log(response, response?.hash);
+                    } catch (error) {
+                      console.log("error", error);
+                    } finally {
+                      setStarting(false);
+                    }
+                    // const result = await api.post("").json();
+                    // const { wallet, id } = result;
+                    // navigate(`/rooms/${wallet}`);
+                    // console.log(result);
+                  }}
+                >
+                  Start payment stream
+                </Button>
+              </div>
+            )}
 
           {isLocal && wallet !== account?.address && (
             <div className="absolute bottom-0 w-full border border-primary bg-[#170726] p-5 text-lg">

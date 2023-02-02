@@ -5,7 +5,7 @@ export default function Button({
   className,
   imageClassName,
   children,
-  loading = true,
+  loading,
   icon,
   image,
   ...props

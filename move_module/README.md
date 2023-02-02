@@ -18,5 +18,5 @@ aptos move test
 
 ## Deploy
 ```sh
-aptos move publish --named-addresses payment_stream=default
+aptos move publish --named-addresses publisher=default
 ```

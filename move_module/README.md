@@ -23,14 +23,14 @@ aptos move publish --named-addresses publisher=default
 ```json
 {
   "Result": {
-    "transaction_hash": "0x48f5805dd66fd12f8fc25b901f910e8df57bc3ad8c406d1d2697417d48b1ba5f",
-    "gas_used": 16776,
+    "transaction_hash": "0xbe039fba731684d9e2c258a4995b327194c049d196309b6c98fc5761a117190c",
+    "gas_used": 18056,
     "gas_unit_price": 100,
     "sender": "e53f73c034591efbd8c4d4e469f7bcbf03426bff3f5267a38a0837d2899f896c",
-    "sequence_number": 16,
+    "sequence_number": 17,
     "success": true,
-    "timestamp_us": 1675362570004417,
-    "version": 9364062,
+    "timestamp_us": 1675362739244734,
+    "version": 9366508,
     "vm_status": "Executed successfully"
   }
 }

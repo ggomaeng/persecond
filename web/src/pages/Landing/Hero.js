@@ -23,7 +23,7 @@ export default function Hero() {
       <div className="absolute left-0 top-0 z-0 h-full w-full overflow-hidden">
         <LineBG />
       </div>
-      <div className="pointer-events-none relative z-[1] flex h-full w-full flex-col items-center pt-[200px] mobile:pt-[250px]">
+      <div className="pointer-events-none relative z-[1] flex h-full w-full flex-col items-center pt-[200px] tablet:pt-[250px]">
         <img
           className="h-auto w-[240px]"
           src="/assets/logo-full-white@2x.png"
@@ -31,7 +31,7 @@ export default function Hero() {
         />
         {/* <ConnectWalletButton /> */}
         {/* <TestBalance /> */}
-        <div className="mt-[60px] text-center text-3xl font-bold text-primary mobile:text-[60px] mobile:leading-[72px]">
+        <div className="mt-[60px] text-center text-3xl font-bold text-primary tablet:text-[60px] tablet:leading-[72px]">
           <div>Ask for resource,</div>
           <div>pay by the second</div>
           <div className="mt-[10px] text-[24px] font-normal">
@@ -39,11 +39,11 @@ export default function Hero() {
           </div>
         </div>
       </div>
-      <div className="absolute bottom-[13%] left-1/2 flex -translate-x-1/2 flex-col items-center justify-center text-center text-primary mobile:bottom-[3%]">
-        <div className="text-4xl font-bold text-dark-purple mobile:text-6xl">
+      <div className="absolute bottom-[13%] left-1/2 flex -translate-x-1/2 flex-col items-center justify-center text-center text-primary tablet:bottom-[3%]">
+        <div className="text-4xl font-bold text-dark-purple tablet:text-6xl">
           <Counter delay={3500} />
         </div>
-        <div className="mt-2 flex justify-center text-2xl font-bold mobile:text-[26px]">
+        <div className="mt-2 flex justify-center text-2xl font-bold tablet:text-[26px]">
           <div>$</div>
           <AnimatedNumbers
             includeComma

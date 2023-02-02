@@ -102,26 +102,79 @@ module publisher::payment_stream_tests {
         per_second::join_session<AptosCoin>(receiver, requester_addr);
         assert!(coin::balance<AptosCoin>(receiver_addr) == 0, 1); // didn't get paid yet
 
-        // Check session data
-        let (
-            started_at,
-            finished_at,
-            max_duration,
-            second_rate,
-            room_id,
-            receiver,
-            deposit_amount
-        ) = per_second::get_session_data<AptosCoin>(requester_addr);
+        // Verify the session data
+        let (started_at, finished_at, max_duration, second_rate, room_id, receiver_addr_2, deposit_amount) =
+            per_second::get_session_data<AptosCoin>(requester_addr);
 
         assert!(started_at == 0, 1);
         assert!(finished_at == 0, 1);
         assert!(max_duration == 3600, 1);
         assert!(second_rate == 2, 1);
         assert!(room_id == string::utf8(b"room_abc"), 1);
-        assert!(receiver == receiver_addr, 1);
+        assert!(receiver_addr_2 == receiver_addr, 1);
         assert!(deposit_amount == 7200, 1);
     }
 
-    // #[test(aptos_framework = @0x1, requester = @0x123, receiver = @0x456)]
-    // public fun test_start_session()
+    #[test(aptos_framework = @0x1, requester = @0x123, receiver = @0x456)]
+    public fun test_start_session(aptos_framework: &signer, requester: &signer, receiver: &signer) {
+        setup(aptos_framework);
+        let requester_addr = setup_and_mint(aptos_framework, requester, 10000);
+        setup_account_and_register_apt(receiver);
+
+        per_second::create_session<AptosCoin>(requester, 3600, 2, string::utf8(b"room_abc"));
+        per_second::join_session<AptosCoin>(receiver, requester_addr);
+
+        timestamp::fast_forward_seconds(4000); // 1000 + 4000 = 5000
+
+        // Start the session
+        per_second::start_session<AptosCoin>(requester);
+        assert!(coin::balance<AptosCoin>(requester_addr) == 10000 - 7200, 1); // should deduct the deposit amount
+
+        // Verify the session data
+        let (started_at, _, max_duration, _, _, _, _) = per_second::get_session_data<AptosCoin>(requester_addr);
+
+        assert!(started_at == 5000, 2);
+
+        // Check initial timestamps
+        assert!(per_second::elapsed_time<AptosCoin>(requester_addr) == 0, 3);
+        assert!(per_second::remaining_time<AptosCoin>(requester_addr) == max_duration, 3);
+
+        // Check status after 30 minutes
+        timestamp::fast_forward_seconds(1800);
+        assert!(per_second::elapsed_time<AptosCoin>(requester_addr) == 1800, 3);
+        assert!(per_second::remaining_time<AptosCoin>(requester_addr) == max_duration - 1800, 3);
+    }
+
+    #[test(aptos_framework = @0x1, requester = @0x123, receiver = @0x456)]
+    public fun test_close_session(aptos_framework: &signer, requester: &signer, receiver: &signer) {
+        setup(aptos_framework);
+        let requester_addr = setup_and_mint(aptos_framework, requester, 10000);
+        let receiver_addr = setup_account_and_register_apt(receiver);
+
+        per_second::create_session<AptosCoin>(requester, 1800, 3, string::utf8(b"room_abc"));
+        per_second::join_session<AptosCoin>(receiver, requester_addr);
+        per_second::start_session<AptosCoin>(requester);
+        assert!(coin::balance<AptosCoin>(requester_addr) == 10000 - 1800 * 3, 1); // should deduct the deposit amount
+
+        // Finish the session in the middle (15 minutes elapsed)
+        timestamp::fast_forward_seconds(900);
+        per_second::close_session<AptosCoin>(receiver, requester_addr); // both requester and receiver can call this
+
+        // Verify the session data
+        let (started_at, finished_at, max_duration, second_rate, room_id, receiver_addr_2, deposit_amount) =
+            per_second::get_session_data<AptosCoin>(requester_addr);
+
+        assert!(started_at == 1000, 2);
+        assert!(finished_at == 1900, 2);
+        assert!(max_duration == 1800, 2); // should not be changed
+        assert!(second_rate == 3, 2); // should not be changed
+        assert!(room_id == string::utf8(b"room_abc"), 2); // should not be changed
+        assert!(receiver_addr_2 == receiver_addr, 2); // should not be changed
+        assert!(deposit_amount == 0, 2); // should be cleared
+
+        // The requester should be refunded half of the total amount
+        assert!(coin::balance<AptosCoin>(requester_addr) == 10000 - 900 * 3, 3);
+        // The receiver should receive half of the total amount
+        assert!(coin::balance<AptosCoin>(receiver_addr) == 900 * 3, 3);
+    }
 }

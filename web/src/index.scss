@@ -55,7 +55,8 @@ html {
 
 
 css-doodle {
-    --color: @p(#2a1636, #8a6eaa, #2a1636, #170726);
+    // --color: @p(#2a1636, #8a6eaa, #170726);
+    --color: @p(#2a1636);
     --rule: (
       :doodle {
         @grid: 30x1 / 18vmin;
@@ -68,23 +69,23 @@ css-doodle {
         content: '';
         background: var(--color); 
         @place-cell: @r(100%) @r(100%);
-        @size: @r(2px);
-        @shape: circle;
+        @size: @r(10px);
+        @shape: square;
       }
     
       @place-cell: center;
       @size: 100%;
     
-      box-shadow: @m2(0 0 50px var(--color));
+      box-shadow: @m2(0 0 3px var(--color));
       background: @m100(
-        radial-gradient(var(--color) 50%, transparent 0) 
-        @r(-20%, 120%) @r(-20%, 100%) / 1px 1px
+        radial-gradient(var(--color) 80%) 
+        @r(-90%, 150%) @r(-70%, 150%) / 3px 3px
         no-repeat
       );
     
       will-change: transform, opacity;
-      animation: scale-up 20s linear infinite;
-      animation-delay: calc(-20s / @I * @i);
+      animation: scale-up 12s linear infinite;
+      animation-delay: calc(-12s / @I * @i);
 
       @keyframes scale-up {
         0%, 95.01%, 100% {

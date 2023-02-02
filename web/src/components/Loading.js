@@ -3,8 +3,15 @@ import "css-doodle";
 
 export default function Loading() {
   return (
-    <div className="flex h-screen w-full items-center justify-center overflow-clip object-contain">
-      <css-doodle use="var(--rule)"></css-doodle>
+    <div className="absolute flex h-screen w-screen animate-fadeIn items-center justify-center overflow-clip object-contain">
+      <div className="absolute">
+        <css-doodle use="var(--rule)"></css-doodle>
+      </div>
+      <img
+        className="h-20 w-20 animate-pulse"
+        src="/assets/logo-single@2x.png"
+        alt=""
+      />
     </div>
   );
 }

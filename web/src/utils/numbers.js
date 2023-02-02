@@ -1,8 +1,8 @@
 export function fixDecimalPlaces(num, places) {
-  return Number(num).toFixed(places);
-  // return num.toLocaleString("en-US", {
-  //   fractionalDigits: places,
-  // });
+  // return Number(num).toFixed(places);
+  return num.toLocaleString("en-US", {
+    maximumFractionDigits: places,
+  });
 }
 
 export function formatHours(time) {

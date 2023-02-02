@@ -17,7 +17,7 @@ export default function ConnectWalletButton({ className }) {
     <>
       <Button
         image="/assets/aptos-logo@2x.png"
-        className={twMerge("pointer-events-auto", className)}
+        className={twMerge("pointer-events-auto font-semibold", className)}
         onClick={() => setModalVisible(true)}
       >
         {connected && account
@@ -74,7 +74,7 @@ export default function ConnectWalletButton({ className }) {
           </div>
           {connected && account && (
             <Button
-              className="mt-[20px] w-full bg-transparent"
+              className="mt-[20px] w-full items-center justify-center bg-transparent text-center"
               onClick={() => disconnect?.()}
             >
               Disconnect from {abbreviateAddress(account.address)}

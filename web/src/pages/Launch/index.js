@@ -135,11 +135,19 @@ export default function Launch() {
           const payload = {
             type: "entry_function_payload",
             function:
-              "0xe53f73c034591efbd8c4d4e469f7bcbf03426bff3f5267a38a0837d2899f896c::payment_stream_v2::create_session",
+              "0xe53f73c034591efbd8c4d4e469f7bcbf03426bff3f5267a38a0837d2899f896c::payment_stream_v3::create_session",
             type_arguments: ["0x1::aptos_coin::AptosCoin"],
-            // arguments: ["3600", "1"], // 1 is in Octas
+            // arguments: [3600, 1e6], // 1 is in Octas
             arguments: args, // 1 is in Octas
           };
+          // const payload = {
+          //   type: "entry_function_payload",
+          //   function:
+          //     "0xe53f73c034591efbd8c4d4e469f7bcbf03426bff3f5267a38a0837d2899f896c::payment_stream_v3::close_session",
+          //   type_arguments: ["0x1::aptos_coin::AptosCoin"],
+          //   // arguments: [3600, 1e6], // 1 is in Octas
+          //   arguments: [account.address], // 1 is in Octas
+          // };
 
           try {
             const response = await signAndSubmitTransaction(payload);

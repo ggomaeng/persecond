@@ -1,6 +1,6 @@
 [package]
 name = 'PerSecondV8'
-version = '0.8.109'
+version = '0.8.127'
 upgrade_policy = "compatible"
 
 [addresses]
@@ -11,5 +11,5 @@ publisher = "0xC0FFEE"
 
 [dependencies.AptosFramework]
 git = 'https://github.com/aptos-labs/aptos-core.git'
-rev = 'devnet'
+rev = 'testnet'
 subdir = 'aptos-move/framework/aptos-framework'

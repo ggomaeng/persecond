@@ -72,12 +72,9 @@ module publisher::payment_stream_v2 {
         assert!(account_addr == requester_addr || account_addr == session.receiver, error::permission_denied(EPERMISSION_DENIED));
 
         let current_time = timestamp::now_seconds();
-        let deposit_amount = session.max_duration * session.second_rate; // coin::value(session.deposit)
 
         // get all deposited coins
-        // let all_coins = coin::withdraw<CoinType>(&session.deposit, deposit_amount);
-        // let all_coins = coin::extract(&mut session.deposit, deposit_amount);
-        let all_coins = session.deposit;
+        let all_coins = coin::extract_all(&mut session.deposit);
 
         // if the session hasn't started yet, refund the full amount to the requester
         if (session.started_at == 0) {
@@ -96,7 +93,7 @@ module publisher::payment_stream_v2 {
         let payment_amount = (session.finished_at - session.started_at) * session.second_rate;
 
         // send payment to the receiver
-        let coins_for_receiver = coin::extract(all_coins, payment_amount);
+        let coins_for_receiver = coin::extract(&mut all_coins, payment_amount);
         coin::deposit<CoinType>(session.receiver, coins_for_receiver);
 
         // refund any remaining funds to the requester (coins_for_receiver is extracted out of all_coins)

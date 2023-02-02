@@ -12,6 +12,7 @@ export default function Loading() {
   //   setFullLoading(false);
   // }, [location]);
 
+  return null;
   if (!fullLoading) return null;
 
   return (

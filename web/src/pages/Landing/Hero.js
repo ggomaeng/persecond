@@ -43,7 +43,7 @@ export default function Hero() {
         <div className="text-4xl font-bold text-dark-purple mobile:text-6xl">
           <Counter delay={3500} />
         </div>
-        <div className="mt-2 flex justify-center text-2xl font-bold">
+        <div className="mt-2 flex justify-center text-2xl font-bold mobile:text-[26px]">
           <div>$</div>
           <AnimatedNumbers
             includeComma

@@ -72,6 +72,7 @@ module.exports = {
         fadeOut: "fadeO 1s ease-in-out forwards",
       },
       fontSize: {
+        "4xl": ["44px", "54px"],
         "3xl": ["32px", "40px"],
         "2xl": ["22px", "30px"],
       },

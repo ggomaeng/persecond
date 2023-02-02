@@ -25,7 +25,7 @@ export default function Hero() {
       </div>
       <div className="pointer-events-none relative z-[1] flex h-full w-full flex-col items-center pt-[200px] tablet:pt-[250px]">
         <img
-          className="h-auto w-[240px]"
+          className="h-[45px] w-[240px]"
           src="/assets/logo-full-white@2x.png"
           alt=""
         />

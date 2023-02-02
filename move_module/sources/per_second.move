@@ -7,8 +7,10 @@ PerSecond.live: Payment stream for 1:1 video consulting
 */
 
 module publisher::per_second {
+    use aptos_framework::account;
     use aptos_framework::coin::{Self, Coin};
     use aptos_framework::timestamp;
+    use aptos_framework::event::{Self, EventHandle};
     use std::error;
     use std::signer;
     use std::string;
@@ -28,6 +30,39 @@ module publisher::per_second {
         room_id: string::String,
         receiver: address,
         deposit: Coin<CoinType>,
+
+        create_session_events: EventHandle<CreateSessionEvent>,
+        join_session_events: EventHandle<JoinSessionEvent>,
+        start_session_events: EventHandle<StartSessionEvent>,
+        close_session_events: EventHandle<CloseSessionEvent>,
+    }
+
+    struct CreateSessionEvent has drop, store {
+        requester: address,
+        max_duration: u64,
+        second_rate: u64,
+        room_id: string::String,
+        created_at: u64,
+    }
+
+    struct JoinSessionEvent has drop, store {
+        requester: address,
+        receiver: address,
+        joined_at: u64,
+    }
+
+    struct StartSessionEvent has drop, store {
+        requester: address,
+        receiver: address,
+        started_at: u64,
+    }
+
+    struct CloseSessionEvent has drop, store {
+        requester: address,
+        receiver: address,
+        finished_at: u64,
+        paid_amount: u64,
+        refunded_amount: u64,
     }
 
     // 1. A requester can initiate a payment stream session for a video call.
@@ -56,8 +91,18 @@ module publisher::per_second {
                 room_id: room_id,
                 receiver: @0x0, // requester doesn't know the receiver's wallet address yet
                 deposit: coin::withdraw<CoinType>(requester, deposit_amount),
+
+                create_session_events: account::new_event_handle<CreateSessionEvent>(requester),
+                join_session_events: account::new_event_handle<JoinSessionEvent>(requester),
+                start_session_events: account::new_event_handle<StartSessionEvent>(requester),
+                close_session_events: account::new_event_handle<CloseSessionEvent>(requester),
             })
-        }
+        };
+
+        let session = borrow_global_mut<Session<CoinType>>(requester_addr);
+        event::emit_event(&mut session.create_session_events, CreateSessionEvent {
+            requester: requester_addr, max_duration, second_rate, room_id, created_at: timestamp::now_seconds()
+        });
     }
 
     // 2. The receiver can join the session through the video call link
@@ -68,6 +113,10 @@ module publisher::per_second {
         assert!(session.receiver == @0x0, error::invalid_state(ERECEIVER_HAS_ALREADY_JOINED));
 
         session.receiver = receiver_addr;
+
+        event::emit_event(&mut session.join_session_events, JoinSessionEvent {
+            requester: requester_addr, receiver: receiver_addr, joined_at: timestamp::now_seconds()
+        });
     }
 
     // 3. Upon joining both parties, the requester can start the session and activate the per-second payment stream
@@ -79,6 +128,10 @@ module publisher::per_second {
         assert!(session.started_at == 0, error::invalid_state(ESESSION_HAS_ALREADY_STARTED));
 
         session.started_at = timestamp::now_seconds();
+
+        event::emit_event(&mut session.start_session_events, StartSessionEvent {
+            requester: requester_addr, receiver: session.receiver, started_at: session.started_at
+        });
     }
 
     // 4. Upon closing of the session, send payment to the receiver, and refund any remaining funds to the requester
@@ -108,14 +161,22 @@ module publisher::per_second {
             finished_at_max
         };
 
-        let payment_amount = (session.finished_at - session.started_at) * session.second_rate;
-
         // send payment to the receiver
+        let payment_amount = (session.finished_at - session.started_at) * session.second_rate;
         let coins_for_receiver = coin::extract(&mut all_coins, payment_amount);
         coin::deposit<CoinType>(session.receiver, coins_for_receiver);
 
         // refund any remaining funds to the requester (coins_for_receiver is extracted out of all_coins)
+        let refund_amount = coin::value(&all_coins);
         coin::deposit<CoinType>(requester_addr, all_coins);
+
+        event::emit_event(&mut session.close_session_events, CloseSessionEvent {
+            requester: requester_addr,
+            receiver: session.receiver,
+            finished_at: session.finished_at,
+            paid_amount: payment_amount,
+            refunded_amount: refund_amount,
+        });
     }
 
     #[view]

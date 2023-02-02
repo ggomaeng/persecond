@@ -120,6 +120,5 @@ module publisher::payment_stream_tests {
         assert!(room_id == string::utf8(b"room_abc"), 1);
         assert!(receiver == receiver_addr, 1);
         assert!(deposit_amount == 7200, 1);
-
     }
 }

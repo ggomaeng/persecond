@@ -1,6 +1,7 @@
 [package]
-name = 'payment_stream'
+name = 'PerSecond'
 version = '1.0.0'
+upgrade_policy = "compatible"
 
 [addresses]
 publisher="_"

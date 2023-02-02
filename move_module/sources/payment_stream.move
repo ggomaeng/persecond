@@ -117,6 +117,23 @@ module publisher::payment_stream {
         }
     }
 
+    #[view]
+    public fun elapsed_time<CoinType>(requester_addr: address): u64 acquires Session {
+        let session = borrow_global<Session<CoinType>>(requester_addr);
+        let current_time = timestamp::now_seconds();
+
+        if (session.started_at == 0) {
+            return 0
+        };
+
+        let finished_at_max = session.started_at + session.max_duration;
+        if (finished_at_max > current_time) {
+            return current_time - session.started_at
+        } else {
+            return session.max_duration
+        }
+    }
+
     #[test_only]
     use aptos_framework::aptos_account;
     #[test_only]
@@ -152,11 +169,15 @@ module publisher::payment_stream {
 
         let requester_addr = signer::address_of(requester);
 
+        // Should deduct the deposit amount from the requester's balance
         assert!(coin::balance<AptosCoin>(requester_addr) == 10000 - 3600, 1);
 
         // Remaining time
         assert!(remaining_time<AptosCoin>(requester_addr) == 3600, 2);
         timestamp::fast_forward_seconds(1000);
         assert!(remaining_time<AptosCoin>(requester_addr) == 3600, 2); // should not change if not started
+
+        // Elapsed time
+        assert!(elapsed_time<AptosCoin>(requester_addr) == 0, 3); // should not chage if not started
     }
 }

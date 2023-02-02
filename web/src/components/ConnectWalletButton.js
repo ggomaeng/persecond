@@ -2,9 +2,10 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import Button from "components/Button.js";
 import Modal from "components/Modal.js";
 import React, { useEffect, useState } from "react";
+import { twMerge } from "tailwind-merge";
 import { abbreviateAddress } from "utils/address.js";
 
-export default function ConnectWalletButton() {
+export default function ConnectWalletButton({ className }) {
   const [modalVisible, setModalVisible] = useState(false);
   const { connect, account, connected, disconnect, wallets } = useWallet();
 
@@ -15,7 +16,8 @@ export default function ConnectWalletButton() {
   return (
     <>
       <Button
-        className="pointer-events-auto"
+        image="/assets/aptos-logo@2x.png"
+        className={twMerge("pointer-events-auto", className)}
         onClick={() => setModalVisible(true)}
       >
         {connected && account

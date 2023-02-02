@@ -27,9 +27,10 @@ export default function Button({
         onPointerEnter={() => setHovering(true)}
         onPointerLeave={() => setHovering(false)}
         className={twMerge(
-          "relative z-[1] h-[40px] min-w-[140px] border border-primary bg-bg px-4 font-bold text-primary transition-all hover:bg-primary hover:text-black",
+          "relative z-[1] flex h-[40px] min-w-[140px] items-center border border-primary bg-bg px-4 font-bold text-primary transition-all enabled:hover:bg-primary enabled:hover:text-black disabled:opacity-50 ",
           className
         )}
+        disabled={props.disabled}
       >
         {image && (
           <img

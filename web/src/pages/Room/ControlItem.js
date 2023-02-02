@@ -25,7 +25,7 @@ export default function ControlItem({
     >
       {children}
       {icon}
-      {options?.length > 0 && (
+      {options?.length > 1 && (
         <div className="relative">
           <CaretDownIcon
             onClick={(e) => {

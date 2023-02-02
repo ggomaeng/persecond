@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 export default function Button({
+  containerClassName,
   className,
   imageClassName,
   children,
@@ -12,7 +13,7 @@ export default function Button({
 }) {
   const [hovering, setHovering] = useState(false);
   return (
-    <div className="relative">
+    <div className={`relative ${containerClassName}`}>
       {icon && (
         <div
           className={`absolute left-1/2 z-[0] -translate-x-1/2 text-[24px] transition-all ${

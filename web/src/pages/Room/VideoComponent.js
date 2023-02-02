@@ -6,8 +6,10 @@ import { toast } from "react-hot-toast";
 import ReactPlayer from "react-player";
 import { useParams } from "react-router-dom";
 import { useRoomStore } from "stores/room.js";
+import { twMerge } from "tailwind-merge";
 import { abbreviateAddress } from "utils/address.js";
 import { aptosClient, CONTRACT_ADDRESS } from "utils/aptos.js";
+import isMobile from "utils/isMobile.js";
 
 export default function VideoComponent(props) {
   const micRef = useRef(null);
@@ -54,7 +56,13 @@ export default function VideoComponent(props) {
   return (
     <div
       key={props.participantId}
-      className={`video-cover relative flex w-full flex-grow flex-col mobile:w-[calc(50%-10px)]`}
+      className={twMerge(
+        `video-cover relative flex w-full flex-grow flex-col tablet:w-[calc(50%-10px)]`,
+        `${
+          isLocal &&
+          "right fixed top-[100px] right-[40px] z-[99] h-[100px] w-[100px] tablet:relative tablet:top-auto tablet:right-auto tablet:h-auto"
+        }`
+      )}
     >
       {micOn && micRef && (
         <audio ref={micRef} autoPlay muted={isLocal || !canStart} />
@@ -79,18 +87,26 @@ export default function VideoComponent(props) {
         />
       ) : (
         <div className="flex h-full w-full flex-grow flex-col items-center justify-center border border-primary/50">
-          <div className="rounded-full bg-primary p-5 text-sm font-bold uppercase text-bg">
-            {abbreviateAddress(displayName)}
+          <div
+            className={`rounded-full bg-primary font-bold uppercase text-bg tablet:p-4 tablet:text-sm ${
+              isLocal ? "p-1 text-xs" : "p-4"
+            }`}
+          >
+            {abbreviateAddress(displayName, 4)}
           </div>
         </div>
       )}
 
-      <div className="absolute top-5 left-5 rounded-md bg-black px-2 py-1 text-sm font-semibold text-white">
+      <div
+        className={`absolute top-5 left-5 rounded-md bg-black px-2 py-1 text-sm font-semibold text-white ${
+          isLocal && "hidden tablet:block"
+        }`}
+      >
         {abbreviateAddress(displayName)}
       </div>
 
       {!micOn && (
-        <div className="absolute top-5 right-5 rounded-md bg-red-500 px-2 py-1 text-sm font-semibold text-white">
+        <div className="absolute top-15 right-[calc(100%-20px)] translate-x-[100%] rounded-md bg-red-500 px-2 py-1 text-sm font-semibold text-white tablet:top-5 tablet:right-5 tablet:transform-none">
           MUTED
         </div>
       )}
@@ -99,10 +115,8 @@ export default function VideoComponent(props) {
         <>
           {account?.address?.toLowerCase?.() === wallet?.toLowerCase?.() &&
             isLocal && (
-              <div className="absolute bottom-0 z-[5] w-full border border-primary bg-[#170726] p-5 text-lg">
-                <div className="font-bold">
-                  The meeting is ready to start 👀
-                </div>
+              <div className="fixed left-0 bottom-0 z-[5] w-full border border-primary bg-[#170726] p-5 text-lg tablet:absolute">
+                <div className="font-bold">The meeting is ready to start 🫡</div>
                 <div className="mt-2">
                   Sign the transaction below to begin. Any remaining balance
                   will be refunded to the requestee based on actual meeting

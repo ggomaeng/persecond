@@ -26,15 +26,15 @@ export default function RoomHeader() {
   }, [messages]);
 
   return (
-    <div className="flex h-[120px] w-full items-center justify-between px-[40px] backdrop-blur-sm">
+    <div className="flex h-[80px] w-screen items-center justify-between px-[20px] backdrop-blur-sm tablet:h-[120px] tablet:px-[40px]">
       <div className="flex items-center">
         <img
           className="mr-[20px] h-[40px] w-[40px]"
           src="/assets/logo-single@2x.png"
           alt="logo"
         />
+        <ConnectWalletButton className="hidden tablet:flex" />
         {/* <div className="ml-[20px] text-[22px]">Some cool room title</div> */}
-        <ConnectWalletButton />
       </div>
       {/* {session?.started_at === "0" ? (
         <Button
@@ -73,7 +73,9 @@ export default function RoomHeader() {
           Start Session
         </Button>
       ) : ( */}
+      <ConnectWalletButton className="flex tablet:hidden" />
       <Button
+        containerClassName={"hidden tablet:block"}
         loading={closing}
         onClick={async () => {
           if (network?.name !== "Devnet") {

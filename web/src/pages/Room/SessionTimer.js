@@ -21,7 +21,6 @@ export default function SessionTimer({ delay = 0, onTick }) {
   useEffect(() => {
     let interval;
     if (started_at && started_at !== "0") {
-      console.log(started_at);
       let hours = 0;
       let minutes = 0;
       let seconds = 0;

@@ -16,6 +16,8 @@ import RoomHeader from "pages/Room/RoomHeader.js";
 import Participants from "pages/Room/Participants.js";
 import SessionBoard from "pages/Room/SessionBoard.js";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import MobileSessionBoard from "pages/Room/MobileSessionBoard.js";
+import MobileChat from "pages/Room/MobileChat.js";
 
 export default function Room() {
   const { roomId } = useParams();
@@ -52,16 +54,21 @@ export default function Room() {
           <div className="relative flex h-screen flex-col text-white">
             <RoomHeader />
 
-            <div className="flex flex-1 flex-col justify-between gap-[20px] tablet:flex-row tablet:px-[40px]">
-              <div className="hide-scrollbar flex flex-grow flex-col">
+            <div className="flex flex-1 flex-col items-center justify-center px-[20px] tablet:flex-row tablet:items-stretch tablet:justify-between tablet:gap-[20px] tablet:px-[40px]">
+              <div className="hide-scrollbar flex w-full flex-grow flex-col">
                 <Videos />
                 {/* <HostVideo /> */}
                 {/* <Participants /> */}
               </div>
 
-              <div className="flex h-full max-w-[280px] flex-col gap-[20px]">
+              <div className="hidden h-full max-w-[280px] flex-col gap-[20px] tablet:flex">
                 <SessionBoard />
                 <Chat />
+              </div>
+
+              <div className="flex w-full flex-col tablet:hidden">
+                <MobileSessionBoard />
+                <MobileChat />
               </div>
             </div>
             {/* <Container meetingId={roomId} /> */}

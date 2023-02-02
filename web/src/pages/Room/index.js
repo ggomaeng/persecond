@@ -54,8 +54,8 @@ export default function Room() {
 
             <div className="flex flex-1 flex-col justify-between gap-[20px] tablet:flex-row tablet:px-[40px]">
               <div className="hide-scrollbar flex h-[70vh] flex-grow flex-col">
-                {/* <Videos /> */}
-                <HostVideo />
+                <Videos />
+                {/* <HostVideo /> */}
                 {/* <Participants /> */}
               </div>
 

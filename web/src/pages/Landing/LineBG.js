@@ -32,7 +32,9 @@ export default function LineBG() {
       />
       <div
         className={`absolute left-[50vw] max-h-0 w-[2px] animate-growYmobileRed bg-white/10 transition-colors duration-500 mobile:animate-growYRed ${
-          animationDone ? "bg-red-500" : "bg-white/10"
+          animationDone
+            ? "bg-gradient-to-t from-red-500 via-red-500 to-transparent"
+            : "bg-white/10"
         }`}
         style={
           animationDone

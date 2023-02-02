@@ -33,9 +33,11 @@ export default function Detail() {
         </FadeInComponent>
         <FadeInComponent>via Aptos Blockchain</FadeInComponent>
       </div>
-      <div className="mt-7 text-xl mobile:text-2xl">
-        with the break-through benefits
-      </div>
+      <FadeInComponent>
+        <div className="mt-7 text-xl mobile:text-2xl">
+          with the break-through benefits
+        </div>
+      </FadeInComponent>
       <div className="mt-5 flex flex-wrap justify-center gap-10">
         {BOX_DATA.map((data, index) => {
           const { image, title, detail } = data;

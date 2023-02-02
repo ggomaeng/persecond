@@ -23,7 +23,7 @@ export default function Hero() {
       <div className="absolute left-0 top-0 z-0 h-full w-full overflow-hidden">
         <LineBG />
       </div>
-      <div className="pointer-events-none relative z-[1] flex h-full w-full flex-col items-center pt-[200px] mobile:pt-[130px]">
+      <div className="pointer-events-none relative z-[1] flex h-full w-full flex-col items-center pt-[200px] mobile:pt-[250px]">
         <img
           className="h-auto w-[240px]"
           src="/assets/logo-full-white@2x.png"

@@ -5,11 +5,14 @@ import { abbreviateAddress } from "utils/address.js";
 
 export default function VideoComponent(props) {
   const micRef = useRef(null);
-  const { webcamStream, micStream, webcamOn, micOn, isLocal } = useParticipant(
-    props.participantId
-  );
+  const { webcamStream, micStream, setQuality, webcamOn, micOn, isLocal } =
+    useParticipant(props.participantId);
 
   const { size, displayName } = props;
+
+  useEffect(() => {
+    setQuality("high");
+  }, []);
 
   const videoStream = useMemo(() => {
     if (webcamOn && webcamStream?.track) {

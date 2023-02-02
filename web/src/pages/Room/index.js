@@ -41,8 +41,10 @@ export default function Room() {
         micEnabled: true,
         webcamEnabled: true,
         name: account?.address || "Guest",
+        quality: "high",
       }}
       token={process.env.REACT_APP_VIDEOSDK_TOKEN}
+
       // token={token}
     >
       <MeetingConsumer>

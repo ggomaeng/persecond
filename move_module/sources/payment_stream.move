@@ -13,11 +13,12 @@ module publisher::payment_stream_v3 {
     use std::signer;
     use std::string;
 
-    const ERECEIVER_HAS_ALREADY_JOINED: u64 = 1;
-    const ERECEIVER_HAS_NOT_JOINED_YET: u64 = 2;
-    const ESESSION_HAS_ALREADY_STARTED: u64 = 3;
-    const ESESSION_HAS_ALREADY_FINISHED: u64 = 4;
-    const EPERMISSION_DENIED: u64 = 5;
+    const EALREADY_HAS_OPEN_SESSION: u64 = 1;
+    const ERECEIVER_HAS_ALREADY_JOINED: u64 = 2;
+    const ERECEIVER_HAS_NOT_JOINED_YET: u64 = 3;
+    const ESESSION_HAS_ALREADY_STARTED: u64 = 4;
+    const ESESSION_HAS_ALREADY_FINISHED: u64 = 5;
+    const EPERMISSION_DENIED: u64 = 6;
 
     struct Session<phantom CoinType> has key, store {
         started_at: u64,
@@ -30,19 +31,33 @@ module publisher::payment_stream_v3 {
     }
 
     // 1. A requester can initiate a payment stream session for a video call.
-    public entry fun create_session<CoinType>(requester: &signer, max_duration: u64, second_rate: u64, room_id: string::String) {
+    public entry fun create_session<CoinType>(requester: &signer, max_duration: u64, second_rate: u64, room_id: string::String) acquires Session {
+        let requester_addr = signer::address_of(requester);
         let deposit_amount = max_duration * second_rate;
-        let coins = coin::withdraw<CoinType>(requester, deposit_amount);
 
-        move_to(requester, Session {
-            started_at: 0,
-            finished_at: 0,
-            max_duration: max_duration,
-            second_rate: second_rate,
-            room_id: room_id,
-            receiver: @0x0, // requester doesn't know the receiver's wallet address yet
-            deposit: coins,
-        })
+        if (exists<Session<CoinType>>(requester_addr)) {
+            let session = borrow_global_mut<Session<CoinType>>(requester_addr);
+            assert!(session.finished_at > 0, error::invalid_state(EALREADY_HAS_OPEN_SESSION));
+
+            // Overwrite the finished session
+            session.started_at = 0;
+            session.finished_at = 0;
+            session.max_duration = max_duration;
+            session.second_rate = second_rate;
+            session.room_id = room_id;
+            session.receiver = @0x0;
+            coin::merge(&mut session.deposit, coin::withdraw<CoinType>(requester, deposit_amount));
+        } else {
+            move_to(requester, Session {
+                started_at: 0,
+                finished_at: 0,
+                max_duration: max_duration,
+                second_rate: second_rate,
+                room_id: room_id,
+                receiver: @0x0, // requester doesn't know the receiver's wallet address yet
+                deposit: coin::withdraw<CoinType>(requester, deposit_amount),
+            })
+        }
     }
 
     // 2. The receiver can join the session through the video call link
@@ -147,10 +162,11 @@ module publisher::payment_stream_v3 {
     #[test_only]
     fun setup(aptos_framework: &signer) {
         timestamp::set_time_has_started_for_testing(aptos_framework);
+        timestamp::fast_forward_seconds(1000); // prevent starting from 0
     }
 
     #[test_only]
-    fun set_up_account(aptos_framework: &signer, account: &signer, amount: u64) {
+    fun set_up_account(aptos_framework: &signer, account: &signer, amount: u64): address {
         let (burn_cap, mint_cap) = aptos_coin::initialize_for_test(aptos_framework);
         coin::destroy_burn_cap<AptosCoin>(burn_cap);
 
@@ -161,16 +177,16 @@ module publisher::payment_stream_v3 {
         coin::deposit<AptosCoin>(account_addr, coins);
 
         coin::destroy_mint_cap<AptosCoin>(mint_cap); // Should we store this for additional mints?
+
+        signer::address_of(account)
     }
 
     #[test(aptos_framework = @0x1, requester = @0x123)]
     public fun test_create_session(aptos_framework: &signer, requester: &signer) acquires Session {
         setup(aptos_framework);
-        set_up_account(aptos_framework, requester, 10000);
+        let requester_addr = set_up_account(aptos_framework, requester, 10000);
 
         create_session<AptosCoin>(requester, 3600, 1, string::utf8(b"room_abc"));
-
-        let requester_addr = signer::address_of(requester);
 
         // Should deduct the deposit amount from the requester's balance
         assert!(coin::balance<AptosCoin>(requester_addr) == 10000 - 3600, 1);
@@ -187,14 +203,27 @@ module publisher::payment_stream_v3 {
     #[test(aptos_framework = @0x1, requester = @0x123)]
     public fun test_full_refund_when_not_started(aptos_framework: &signer, requester: &signer) acquires Session {
         setup(aptos_framework);
-        set_up_account(aptos_framework, requester, 10000);
-        let requester_addr = signer::address_of(requester);
+        let requester_addr = set_up_account(aptos_framework, requester, 10000);
 
         create_session<AptosCoin>(requester, 3600, 1, string::utf8(b"room_abc"));
         assert!(coin::balance<AptosCoin>(requester_addr) == 10000 - 3600, 1);
 
-        // Should refund the full amount to the requester if not started
+        // Refund the full amount to the requester if the session is closed without starting
         close_session<AptosCoin>(requester, requester_addr);
+        assert!(coin::balance<AptosCoin>(requester_addr) == 10000, 2);
+    }
+
+    #[test(aptos_framework = @0x1, requester = @0x123)]
+    public fun test_recreate_the_session_after_finish(aptos_framework: &signer, requester: &signer) acquires Session {
+        setup(aptos_framework);
+        let requester_addr = set_up_account(aptos_framework, requester, 10000);
+
+        create_session<AptosCoin>(requester, 3600, 1, string::utf8(b"room_abc"));
+        close_session<AptosCoin>(requester, requester_addr); // full refund
+
         assert!(coin::balance<AptosCoin>(requester_addr) == 10000, 1);
+        // Should be able to create a new session again
+        create_session<AptosCoin>(requester, 1000, 2, string::utf8(b"room_def"));
+        assert!(coin::balance<AptosCoin>(requester_addr) == 10000 - 2000, 2);
     }
 }

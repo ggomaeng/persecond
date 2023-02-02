@@ -6,11 +6,12 @@ Payment stream for 1:1 video consulting
     4. Upon closing of the session, send payment to the receiver, and refund any remaining funds to the requester
 */
 
-module publisher::payment_stream_v2 {
+module publisher::payment_stream_v3 {
     use aptos_framework::coin::{Self, Coin};
     use aptos_framework::timestamp;
     use std::error;
     use std::signer;
+    use std::string;
 
     const ERECEIVER_HAS_ALREADY_JOINED: u64 = 1;
     const ERECEIVER_HAS_NOT_JOINED_YET: u64 = 2;
@@ -23,12 +24,13 @@ module publisher::payment_stream_v2 {
         finished_at: u64,
         max_duration: u64,
         second_rate: u64, // price per second
+        room_id: string::String,
         receiver: address,
         deposit: Coin<CoinType>,
     }
 
     // 1. A requester can initiate a payment stream session for a video call.
-    public entry fun create_session<CoinType>(requester: &signer, max_duration: u64, second_rate: u64) {
+    public entry fun create_session<CoinType>(requester: &signer, max_duration: u64, second_rate: u64, room_id: string::String) {
         let deposit_amount = max_duration * second_rate;
         let coins = coin::withdraw<CoinType>(requester, deposit_amount);
 
@@ -37,6 +39,7 @@ module publisher::payment_stream_v2 {
             finished_at: 0,
             max_duration: max_duration,
             second_rate: second_rate,
+            room_id: room_id,
             receiver: @0x0, // requester doesn't know the receiver's wallet address yet
             deposit: coins,
         })
@@ -165,7 +168,7 @@ module publisher::payment_stream_v2 {
         setup(aptos_framework);
         set_up_account(aptos_framework, requester, 10000);
 
-        create_session<AptosCoin>(requester, 3600, 1);
+        create_session<AptosCoin>(requester, 3600, 1, string::utf8(b"room_abc"));
 
         let requester_addr = signer::address_of(requester);
 
@@ -187,7 +190,7 @@ module publisher::payment_stream_v2 {
         set_up_account(aptos_framework, requester, 10000);
         let requester_addr = signer::address_of(requester);
 
-        create_session<AptosCoin>(requester, 3600, 1);
+        create_session<AptosCoin>(requester, 3600, 1, string::utf8(b"room_abc"));
         assert!(coin::balance<AptosCoin>(requester_addr) == 10000 - 3600, 1);
 
         // Should refund the full amount to the requester if not started

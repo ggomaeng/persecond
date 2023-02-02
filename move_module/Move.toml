@@ -1,6 +1,6 @@
 [package]
-name = 'PerSecond'
-version = '1.0.0'
+name = 'PerSecondV1'
+version = '0.0.1'
 upgrade_policy = "compatible"
 
 [addresses]

@@ -41,7 +41,7 @@ export default function Hero() {
       </div>
       <div className="absolute bottom-[13%] left-1/2 flex -translate-x-1/2 flex-col items-center justify-center text-center text-primary mobile:bottom-[3%]">
         <div className="text-4xl font-bold text-dark-purple mobile:text-6xl">
-          <Counter />
+          <Counter delay={3500} />
         </div>
         <div className="mt-2 flex justify-center text-2xl font-bold">
           <div>$</div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getHourMinuteSeconds } from "utils/numbers";
 
-export default function Counter() {
+export default function Counter({ delay = 0 }) {
   // const defaultStartTime = 2 * 60 * 60 * 1000 + 30 * 60 * 1000 + 50 * 1000;
   const defaultStartTime = 0;
   const [timeState, setTimeState] = useState({
@@ -41,7 +41,7 @@ export default function Counter() {
       }, 1000);
 
       return () => clearInterval(intervalId);
-    }, 3500);
+    }, delay);
   }, []);
 
   function isEqual(prev, curr) {

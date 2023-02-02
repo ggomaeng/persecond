@@ -46,7 +46,7 @@ export default function Videos(props) {
     async function checkSigned() {
       try {
         const session = await getSession(wallet);
-        const { started_at, finished_at } = session;
+        const { started_at } = session;
         console.log(session);
         setSession(session);
         if (started_at !== "0") {
@@ -54,10 +54,7 @@ export default function Videos(props) {
             toast.success("Session started");
           }
           setCanStart(true);
-        }
-
-        if (finished_at !== "0") {
-          //go to receipt
+          clearInterval(interval);
         }
 
         initialCheck = false;

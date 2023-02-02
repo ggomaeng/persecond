@@ -28,6 +28,10 @@ module.exports = {
           "0%": { minHeight: 0 },
           "100%": { minHeight: "100%" },
         },
+        growY60: {
+          "0%": { minHeight: 0 },
+          "100%": { minHeight: "80%" },
+        },
         rotate180: {
           "0%": { transform: "rotate(0deg)" },
           "100%": { transform: "rotate(180deg)" },
@@ -40,6 +44,7 @@ module.exports = {
       },
       animation: {
         growY: "growY 1.5s ease-in-out forwards",
+        growYmobile: "growY60 1.5s ease-in-out forwards",
         rotate180: "rotate180 1.5s ease-in-out forwards",
         "pop-by-sec": "pop 1s infinite",
         fadeIn: "fade 125ms ease-in-out forwards",

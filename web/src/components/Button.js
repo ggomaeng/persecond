@@ -32,6 +32,10 @@ export default function Button({
           className
         )}
         disabled={props.disabled}
+        onClick={() => {
+          if (loading) return;
+          props.onClick?.();
+        }}
       >
         {image && (
           <img

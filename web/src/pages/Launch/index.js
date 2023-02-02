@@ -7,12 +7,14 @@ import { fixDecimalPlaces } from "utils/numbers";
 import { useLaunchStore } from "stores/create";
 import { api } from "utils/api.js";
 import { useNavigate } from "react-router-dom";
-import { aptosClient } from "utils/aptos.js";
+import { aptosClient, CONTRACT_ADDRESS } from "utils/aptos.js";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import ConnectWalletButton from "components/ConnectWalletButton.js";
 import useAptosBalance from "hooks/useAptosBalance.js";
 import { commify, formatUnits, parseUnits } from "ethers/lib/utils.js";
 import { BigNumber } from "ethers";
+import { toast } from "react-hot-toast";
+import { toastError } from "utils/toasts.js";
 
 export default function Launch() {
   const { price, duration, setPrice, setDuration } = useLaunchStore(
@@ -23,6 +25,7 @@ export default function Launch() {
   const { account, signAndSubmitTransaction } = useWallet();
 
   const [isModal, setIsModal] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
   const notEnoughBalance = +balance < duration * price;
 
@@ -124,43 +127,34 @@ export default function Launch() {
       <Button
         className="mt-5 flex items-center justify-center font-semibold"
         disabled={!account || !balance || !price || price === 0}
+        loading={loading}
         onClick={async () => {
-          console.log(price);
-          const args = [
-            3600 * duration,
-            BigNumber.from(price).mul(1e8).div(3600).toNumber(),
-          ];
-          console.log("args", args);
-
-          const payload = {
-            type: "entry_function_payload",
-            function:
-              "0xe53f73c034591efbd8c4d4e469f7bcbf03426bff3f5267a38a0837d2899f896c::payment_stream_v3::create_session",
-            type_arguments: ["0x1::aptos_coin::AptosCoin"],
-            // arguments: [3600, 1e6], // 1 is in Octas
-            arguments: args, // 1 is in Octas
-          };
-          // const payload = {
-          //   type: "entry_function_payload",
-          //   function:
-          //     "0xe53f73c034591efbd8c4d4e469f7bcbf03426bff3f5267a38a0837d2899f896c::payment_stream_v3::close_session",
-          //   type_arguments: ["0x1::aptos_coin::AptosCoin"],
-          //   // arguments: [3600, 1e6], // 1 is in Octas
-          //   arguments: [account.address], // 1 is in Octas
-          // };
-
           try {
+            setLoading(true);
+            const result = await api.post("").json();
+            const { roomId } = result;
+            const args = [
+              3600 * duration,
+              BigNumber.from(price).mul(1e8).div(3600).toNumber(),
+              roomId,
+            ];
+
+            const payload = {
+              type: "entry_function_payload",
+              function: `${CONTRACT_ADDRESS}::create_session`,
+              type_arguments: ["0x1::aptos_coin::AptosCoin"],
+              arguments: args,
+            };
             const response = await signAndSubmitTransaction(payload);
             // if you want to wait for transaction
             await aptosClient.waitForTransaction(response?.hash || "");
             console.log(response, response?.hash);
-          } catch (error) {
-            console.log("error", error);
+            navigate(`/room/${roomId}`);
+          } catch (e) {
+            toastError(e);
+          } finally {
+            setLoading(false);
           }
-          // const result = await api.post("").json();
-          // const { roomId, id } = result;
-          // navigate(`/rooms/${roomId}`);
-          // console.log(result);
         }}
       >
         Launch meeting

@@ -1,3 +1,4 @@
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import Button from "components/Button";
 import ConnectWalletButton from "components/ConnectWalletButton.js";
 import Header from "components/Header";
@@ -5,11 +6,11 @@ import { BigNumber } from "ethers";
 import { formatUnits } from "ethers/lib/utils.js";
 import { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Webcam from "react-webcam";
 import { useAppStore } from "stores/app.js";
 import { abbreviateAddress } from "utils/address";
-import { getSession } from "utils/aptos.js";
+import { aptosClient, CONTRACT_ADDRESS, getSession } from "utils/aptos.js";
 import { fixDecimalPlaces } from "utils/numbers.js";
 import StepBase from "../Launch/StepBase";
 
@@ -17,6 +18,8 @@ export default function Join() {
   const { roomId } = useParams();
   const setFullLoading = useAppStore((state) => state.setFullLoading);
   const [data, setData] = useState({});
+  const { signAndSubmitTransaction } = useWallet();
+  const navigate = useNavigate();
 
   // const data = {
   //   title: "Aptos' Mo Shaikh on the Move Moment",
@@ -90,7 +93,31 @@ export default function Join() {
                 By making this transaction, you are agreeing to participate in
                 the meeting and receive the time-based payment.
               </div>
-              <Button className="mt-5 flex items-center justify-center font-semibold">
+              <Button
+                className="mt-5 flex items-center justify-center font-semibold"
+                onClick={async () => {
+                  const payload = {
+                    type: "entry_function_payload",
+                    function: `${CONTRACT_ADDRESS}::join_session`,
+                    type_arguments: ["0x1::aptos_coin::AptosCoin"],
+                    arguments: [roomId], // 1 is in Octas
+                  };
+
+                  try {
+                    const response = await signAndSubmitTransaction(payload);
+                    // if you want to wait for transaction
+                    await aptosClient.waitForTransaction(response?.hash || "");
+                    navigate(`/room/${data?.room_id}`);
+                    console.log(response, response?.hash);
+                  } catch (error) {
+                    console.log("error", error);
+                  }
+                  // const result = await api.post("").json();
+                  // const { roomId, id } = result;
+                  // navigate(`/rooms/${roomId}`);
+                  // console.log(result);
+                }}
+              >
                 Proceed to join
               </Button>
             </StepBase>

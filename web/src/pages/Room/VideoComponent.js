@@ -127,8 +127,8 @@ export default function VideoComponent(props) {
                   className="mt-5"
                   loading={starting}
                   onClick={async () => {
-                    if (network?.name !== "Devnet") {
-                      toast("Please switch your network to Devnet", {
+                    if (network?.name !== "Testnet") {
+                      toast("Please switch your network to Testnet", {
                         icon: "⚠️",
                       });
                       return;

@@ -98,8 +98,8 @@ export default function Controls() {
           className="border-red-500 bg-red-500"
           icon={<EndIcon fillcolor="white" />}
           onClick={async () => {
-            if (network?.name !== "Devnet") {
-              toast("Please switch your network to Devnet", {
+            if (network?.name !== "Testnet") {
+              toast("Please switch your network to Testnet", {
                 icon: "⚠️",
               });
               return;

@@ -40,8 +40,8 @@ export default function RoomHeader() {
         <Button
           loading={starting}
           onClick={async () => {
-            if (network?.name !== "Devnet") {
-              toast("Please switch your network to Devnet", {
+            if (network?.name !== "Testnet") {
+              toast("Please switch your network to Testnet", {
                 icon: "⚠️",
               });
               return;
@@ -78,8 +78,8 @@ export default function RoomHeader() {
         containerClassName={"hidden tablet:block"}
         loading={closing}
         onClick={async () => {
-          if (network?.name !== "Devnet") {
-            toast("Please switch your network to Devnet", {
+          if (network?.name !== "Testnet") {
+            toast("Please switch your network to Testnet", {
               icon: "⚠️",
             });
             return;

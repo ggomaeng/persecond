@@ -114,8 +114,8 @@ export default function Join() {
                     className="mt-5 flex items-center justify-center font-semibold"
                     loading={joining}
                     onClick={async () => {
-                      if (network?.name !== "Devnet") {
-                        toast("Please switch your network to Devnet", {
+                      if (network?.name !== "Testnet") {
+                        toast("Please switch your network to Testnet", {
                           icon: "⚠️",
                         });
                         return;

@@ -70,7 +70,7 @@ export default function Expert() {
           </div>
         </ResultItem>
         <a
-          href={`https://explorer.aptoslabs.com/txn/${hash}?network=devnet`}
+          href={`https://explorer.aptoslabs.com/txn/${hash}?network=Testnet`}
           target="_blank"
           rel="noreferrer noopener"
         >

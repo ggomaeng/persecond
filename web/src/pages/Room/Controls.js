@@ -1,17 +1,23 @@
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import ControlItem from "pages/Room/ControlItem.js";
 import ChatIcon from "pages/Room/Icons/ChatIcon.js";
-import ClipboardIcon from "pages/Room/Icons/ClipboardIcon.js";
 import EndIcon from "pages/Room/Icons/EndIcon.js";
 import MicOnIcon from "pages/Room/Icons/MicOnIcon.js";
-import ParticipantsIcon from "pages/Room/Icons/ParticipantsIcon.js";
-import ScreenShareIcon from "pages/Room/Icons/ScreenShareIcon.js";
 import WebcamOnIcon from "pages/Room/Icons/WebcamOnIcon.js";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
+import { useParams } from "react-router-dom";
 import { useRoomStore } from "stores/room.js";
+import { aptosClient, CONTRACT_ADDRESS } from "utils/aptos.js";
+import { toastError } from "utils/toasts.js";
 
-const { useMeeting } = require("@videosdk.live/react-sdk");
+const { useMeeting, usePubSub } = require("@videosdk.live/react-sdk");
 
 export default function Controls() {
+  const { wallet } = useParams();
+  const { network, signAndSubmitTransaction } = useWallet();
+  const { publish } = usePubSub("TRANSACTION_END");
+  const [closing, setClosing] = useState(false);
   const [mics, setMics] = useState([]);
   const [cams, setCams] = useState([]);
   const {
@@ -90,8 +96,34 @@ export default function Controls() {
         /> */}
         <ControlItem
           className="border-red-500 bg-red-500"
-          onClick={leave}
           icon={<EndIcon fillcolor="white" />}
+          onClick={async () => {
+            if (network?.name !== "Devnet") {
+              toast("Please switch your network to Devnet", {
+                icon: "⚠️",
+              });
+              return;
+            }
+            setClosing(true);
+
+            try {
+              const payload = {
+                type: "entry_function_payload",
+                function: `${CONTRACT_ADDRESS}::close_session`,
+                type_arguments: ["0x1::aptos_coin::AptosCoin"],
+                arguments: [wallet], // 1 is in Octas
+              };
+              const response = await signAndSubmitTransaction(payload);
+              // if you want to wait for transaction
+              await aptosClient.waitForTransaction(response?.hash || "");
+              await publish(response.hash);
+              console.log(response, response?.hash);
+            } catch (error) {
+              toastError(error);
+            } finally {
+              setClosing(false);
+            }
+          }}
         />
       </div>
 

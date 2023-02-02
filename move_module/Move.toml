@@ -4,10 +4,10 @@ version = '0.1.0'
 upgrade_policy = "compatible"
 
 [addresses]
-publisher="_"
+publisher = "_"
 
 [dev-addresses]
-publisher="0xC0FFEE"
+publisher = "0xC0FFEE"
 
 [dependencies.AptosFramework]
 git = 'https://github.com/aptos-labs/aptos-core.git'

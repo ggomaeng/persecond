@@ -151,4 +151,19 @@ module publisher::per_second {
             return session.max_duration
         }
     }
+
+    #[view]
+    public fun get_session<CoinType>(requester_addr: address): (u64, u64, u64, u64, string::String, address, u64) acquires Session {
+        let session = borrow_global<Session<CoinType>>(requester_addr);
+
+        return (
+            session.started_at,
+            session.finished_at,
+            session.max_duration,
+            session.second_rate,
+            session.room_id,
+            session.receiver,
+            coin::value<CoinType>(&session.deposit),
+        )
+    }
 }

@@ -6,23 +6,20 @@ export default function Container(props) {
   const [joined, setJoined] = useState(false);
   const { join, participants } = useMeeting();
 
+  console.log(participants);
+
   const joinMeeting = () => {
     setJoined(true);
     join();
   };
 
-  return (
-    <div className="container">
-      <h3 className="text-white">Meeting Id: {props.meetingId}</h3>
-      {joined ? (
-        <div>
-          {[...participants.keys()].map((participantId) => (
-            <VideoComponent key={participantId} participantId={participantId} />
-          ))}
-        </div>
-      ) : (
-        <button onClick={joinMeeting}>Join</button>
-      )}
+  return joined ? (
+    <div>
+      {[...participants.keys()].map((participantId) => (
+        <VideoComponent key={participantId} participantId={participantId} />
+      ))}
     </div>
+  ) : (
+    <button onClick={joinMeeting}>Join</button>
   );
 }

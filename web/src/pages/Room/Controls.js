@@ -17,12 +17,14 @@ export default function Controls() {
     localParticipant,
     localMicOn,
     localWebcamOn,
+    localScreenShareOn,
     leave,
     toggleMic,
     toggleWebcam,
     changeWebcam,
     changeMic,
     getWebcams,
+    enableScreenShare,
     getMics,
   } = useMeeting({
     onMeetingJoined,
@@ -77,11 +79,15 @@ export default function Controls() {
           activeOptions={activeDeviceIds}
           onOptionClick={(option) => changeWebcam(option)}
         />
-        <ControlItem
+        {/* <ControlItem
           className="mr-3"
-          onClick={leave}
-          icon={<ScreenShareIcon fillcolor="#dfcefd" />}
-        />
+          onClick={enableScreenShare}
+          icon={
+            <ScreenShareIcon
+              fillcolor={localScreenShareOn ? "#dfcefd" : "#453f50"}
+            />
+          }
+        /> */}
         <ControlItem
           className="border-red-500 bg-red-500"
           onClick={leave}

@@ -5,7 +5,7 @@ import { WALLETS } from "constants/wallets.js";
 
 function App() {
   return (
-    <AptosWalletAdapterProvider plugins={WALLETS}>
+    <AptosWalletAdapterProvider plugins={WALLETS} autoConnect>
       <>
         <Router />
         <div id="portal" />

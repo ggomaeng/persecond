@@ -8,15 +8,20 @@ import {
 } from "@videosdk.live/react-sdk";
 import { useParams } from "react-router-dom";
 import { api } from "utils/api.js";
-import Container from "pages/Room/Container.js";
+import Videos from "pages/Room/Videos.js";
 import Chat from "pages/Room/Chat.js";
 import Controls from "pages/Room/Controls.js";
 import HostVideo from "pages/Room/HostVideo.js";
 import RoomHeader from "pages/Room/RoomHeader.js";
 import Participants from "pages/Room/Participants.js";
+import SessionBoard from "pages/Room/SessionBoard.js";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
 
 export default function Room() {
   const { roomId } = useParams();
+  const { account } = useWallet();
+
+  console.log(account);
 
   useEffect(() => {
     // async function checkRoom() {
@@ -34,7 +39,7 @@ export default function Room() {
         meetingId: roomId,
         micEnabled: true,
         webcamEnabled: true,
-        name: "C.V. Raman",
+        name: account?.address || "Guest",
       }}
       token={process.env.REACT_APP_VIDEOSDK_TOKEN}
     >
@@ -43,13 +48,15 @@ export default function Room() {
           <div className="relative text-white">
             <RoomHeader />
 
-            <div className="flex justify-between gap-[20px] px-[40px] py-[120px]">
+            <div className="flex flex-grow justify-between gap-[20px] px-[40px] py-[120px]">
               <div className="hide-scrollbar flex max-w-[calc(100vw-380px)] flex-grow flex-col">
-                <HostVideo />
-                <Participants />
+                <Videos />
+                {/* <HostVideo /> */}
+                {/* <Participants /> */}
               </div>
 
-              <div className="fixed right-[40px] top-[120px] max-h-[100vh-120px] w-[280px]">
+              <div className="fixed right-[40px] top-[120px] flex h-full max-h-[calc(100vh-240px)] w-[280px] flex-grow flex-col gap-[20px]">
+                <SessionBoard />
                 <Chat />
               </div>
             </div>

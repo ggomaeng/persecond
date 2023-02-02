@@ -1,12 +1,15 @@
 import { useParticipant } from "@videosdk.live/react-sdk";
 import { useEffect, useMemo, useRef } from "react";
 import ReactPlayer from "react-player";
+import { abbreviateAddress } from "utils/address.js";
 
 export default function VideoComponent(props) {
   const micRef = useRef(null);
   const { webcamStream, micStream, webcamOn, micOn, isLocal } = useParticipant(
     props.participantId
   );
+
+  const { size, displayName } = props;
 
   const videoStream = useMemo(() => {
     if (webcamOn && webcamStream?.track) {
@@ -34,27 +37,40 @@ export default function VideoComponent(props) {
     }
   }, [micStream, micOn]);
 
+  console.log(size);
+  let maxWidth = "max-w-[100%]";
+  if (size === 2) maxWidth = "max-w-[50%]";
+
   return (
-    <div key={props.participantId}>
+    <div
+      key={props.participantId}
+      className={`relative flex flex-grow flex-col ${maxWidth}`}
+    >
       {micOn && micRef && <audio ref={micRef} autoPlay muted={isLocal} />}
-      {webcamOn && (
+      {webcamOn ? (
         <ReactPlayer
           //
           playsinline // very very imp prop
           pip={false}
           light={false}
-          controls={true}
+          controls={false}
           muted={true}
           playing={true}
           //
           url={videoStream}
           //
-          height={"300px"}
-          width={"300px"}
+          height={"100%"}
+          width={"100%"}
           onError={(err) => {
             console.log(err, "participant video error");
           }}
         />
+      ) : (
+        <div className="flex h-full w-full flex-grow flex-col items-center justify-center rounded-md border border-primary/50">
+          <div className="rounded-lg bg-primary p-2 text-sm text-bg">
+            {abbreviateAddress(displayName)}
+          </div>
+        </div>
       )}
     </div>
   );

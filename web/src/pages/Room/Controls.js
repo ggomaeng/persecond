@@ -49,7 +49,7 @@ export default function Controls() {
     );
 
   return (
-    <div className="fixed bottom-0 flex w-screen justify-between p-[40px] pt-0 backdrop-blur-sm">
+    <div className="flex h-[120px] w-screen justify-between p-[40px] backdrop-blur-sm">
       <div>
         <ControlItem
           className="px-3"

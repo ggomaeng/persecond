@@ -45,17 +45,17 @@ export default function Room() {
     >
       <MeetingConsumer>
         {() => (
-          <div className="relative text-white">
+          <div className="relative flex h-screen flex-col text-white">
             <RoomHeader />
 
-            <div className="flex flex-grow justify-between gap-[20px] px-[40px] py-[120px]">
-              <div className="hide-scrollbar flex max-w-[calc(100vw-380px)] flex-grow flex-col">
-                <Videos />
-                {/* <HostVideo /> */}
+            <div className="flex flex-grow justify-between gap-[20px] px-[40px]">
+              <div className="hide-scrollbar flex flex-grow flex-col">
+                {/* <Videos /> */}
+                <HostVideo />
                 {/* <Participants /> */}
               </div>
 
-              <div className="fixed right-[40px] top-[120px] flex h-full max-h-[calc(100vh-240px)] w-[280px] flex-grow flex-col gap-[20px]">
+              <div className="flex h-full max-w-[280px] flex-col gap-[20px]">
                 <SessionBoard />
                 <Chat />
               </div>

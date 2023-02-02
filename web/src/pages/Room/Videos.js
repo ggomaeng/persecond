@@ -1,4 +1,5 @@
 import { useMeeting } from "@videosdk.live/react-sdk";
+import Invite from "pages/Room/Invite.js";
 import VideoComponent from "pages/Room/VideoComponent.js";
 import React, { useEffect, useState } from "react";
 import { useAppStore } from "stores/app.js";
@@ -25,7 +26,7 @@ export default function Videos(props) {
   };
 
   return joined ? (
-    <div className="relative flex h-[420px] flex-grow flex-wrap gap-[20px]">
+    <div className="relative flex h-full flex-grow flex-wrap gap-[20px]">
       {[...participants.values()].map(({ id, displayName }) => (
         <VideoComponent
           displayName={displayName}
@@ -34,6 +35,7 @@ export default function Videos(props) {
           size={participants?.size}
         />
       ))}
+      {participants.size === 1 && <Invite />}
     </div>
   ) : (
     <button onClick={joinMeeting}>Join</button>

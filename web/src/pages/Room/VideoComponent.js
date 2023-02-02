@@ -37,14 +37,10 @@ export default function VideoComponent(props) {
     }
   }, [micStream, micOn]);
 
-  console.log(size);
-  let maxWidth = "max-w-[100%]";
-  if (size === 2) maxWidth = "max-w-[50%]";
-
   return (
     <div
       key={props.participantId}
-      className={`relative flex flex-grow flex-col ${maxWidth}`}
+      className={`video-cover relative flex w-full flex-grow flex-col mobile:w-[calc(50%-10px)]`}
     >
       {micOn && micRef && <audio ref={micRef} autoPlay muted={isLocal} />}
       {webcamOn ? (

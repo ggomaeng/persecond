@@ -102,3 +102,8 @@ css-doodle {
       }
     )
   }
+
+.video-cover video {
+  position: absolute;
+  object-fit: cover;
+}

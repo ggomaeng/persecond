@@ -33,7 +33,6 @@ export default function Room() {
   // }, [roomId]);
 
   if (!roomId) return null;
-  console.log(process.env.REACT_APP_VIDEOSDK_TOKEN);
 
   return (
     <MeetingProvider

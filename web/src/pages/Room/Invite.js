@@ -1,8 +1,11 @@
 import React from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { toast } from "react-hot-toast";
+import { useParams } from "react-router-dom";
 
 export default function Invite() {
+  const { roomId } = useParams();
+  const link = `${window.location.origin}/join/${roomId}}`;
   return (
     <div
       className={`relative flex h-full w-full flex-grow flex-col items-center justify-center border border-primary/50 mobile:w-[calc(50%-10px)]`}
@@ -16,10 +19,10 @@ export default function Invite() {
         <div className="text-[#8a6eaa]">Share this meeting link</div>
         <div className="relative mt-[12px] flex items-center justify-between border-b border-primary pb-[5px]">
           <div className="max-w-[calc(100%-24px)] overflow-hidden text-ellipsis whitespace-nowrap text-primary">
-            {window.location.href}
+            {link}
           </div>
           <CopyToClipboard
-            text={window.location.href}
+            text={link}
             onCopy={() => toast.success("Copied to clipboard!")}
           >
             <img

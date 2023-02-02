@@ -8,9 +8,9 @@ export default function Loading() {
   const setFullLoading = useAppStore((state) => state.setFullLoading);
   const location = useLocation();
 
-  useEffect(() => {
-    setFullLoading(false);
-  }, [location]);
+  // useEffect(() => {
+  //   setFullLoading(false);
+  // }, [location]);
 
   if (!fullLoading) return null;
 

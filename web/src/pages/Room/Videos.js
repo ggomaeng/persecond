@@ -10,6 +10,12 @@ export default function Videos(props) {
   const setFullLoading = useAppStore((state) => state.setFullLoading);
   const [joined, setJoined] = useState(false);
   const { join, participants, leave } = useMeeting({
+    onConnectionOpen: (e) => {
+      console.log("connection open", e);
+    },
+    onMeetingStateChanged: (e) => {
+      console.log("meeting state changed", e);
+    },
     onError: (e) => {
       toastError(e);
     },
@@ -29,7 +35,8 @@ export default function Videos(props) {
     console.log("joined", joined);
     if (!joined) {
       console.log("joining");
-      joinMeeting();
+      setFullLoading(true);
+      setTimeout(() => joinMeeting(), 1500);
     }
   }, [joined]);
 

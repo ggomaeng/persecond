@@ -25,21 +25,30 @@ module.exports = {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
         },
+        fadeO: {
+          "0%": { opacity: "1" },
+          "50%": { opacity: "1" },
+          "100%": { opacity: "0" },
+        },
         growY: {
           "0%": { minHeight: 0 },
           "100%": { minHeight: "100%" },
         },
-        growY60: {
+        growY75: {
           "0%": { minHeight: 0 },
-          "100%": { minHeight: "75%" },
+          "100%": { minHeight: "87%" },
+        },
+        growY71: {
+          "0%": { minHeight: 0 },
+          "100%": { minHeight: "76%" },
         },
         growY90: {
           "0%": { minHeight: 0 },
-          "100%": { minHeight: "86%" },
+          "100%": { minHeight: "88%" },
         },
         rotate180: {
-          "0%": { transform: "rotate(-10deg)" },
-          "100%": { transform: "rotate(190deg)" },
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(180deg)" },
         },
         pop: {
           "0%": { transform: "scale(1)", opacity: "1", color: "#463b53" },
@@ -49,11 +58,13 @@ module.exports = {
       },
       animation: {
         growY: "growY 1.5s ease-in-out forwards",
-        growYmobile: "growY60 1.5s ease-in-out forwards",
+        growYmobile: "growY75 1.5s ease-in-out forwards",
+        growYmobileRed: "growY71 1.5s ease-in-out forwards",
         growYRed: "growY90 1.5s ease-in-out forwards",
         rotate180: "rotate180 1.5s ease-in-out forwards",
         "pop-by-sec": "pop 1s infinite",
         fadeIn: "fade 125ms ease-in-out forwards",
+        fadeOut: "fadeO 1s ease-in-out forwards",
       },
       fontSize: {
         "3xl": ["32px", "40px"],

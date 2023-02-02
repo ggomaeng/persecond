@@ -23,7 +23,7 @@ export default function Hero() {
       <div className="absolute left-0 top-0 z-0 h-full w-full overflow-hidden">
         <LineBG />
       </div>
-      <div className="pointer-events-none relative z-[1] flex h-full w-full flex-col items-center pt-[130px]">
+      <div className="pointer-events-none relative z-[1] flex h-full w-full flex-col items-center pt-[200px] mobile:pt-[130px]">
         <img
           className="h-auto w-[240px]"
           src="/assets/logo-full-white@2x.png"
@@ -39,8 +39,8 @@ export default function Hero() {
           </div>
         </div>
       </div>
-      <div className="absolute bottom-[3%] left-1/2 flex -translate-x-1/2 flex-col items-center justify-center text-center text-primary">
-        <div className="text-6xl font-bold text-dark-purple">
+      <div className="absolute bottom-[13%] left-1/2 flex -translate-x-1/2 flex-col items-center justify-center text-center text-primary mobile:bottom-[3%]">
+        <div className="text-4xl font-bold text-dark-purple mobile:text-6xl">
           <Counter />
         </div>
         <div className="mt-2 flex justify-center text-2xl font-bold">
@@ -48,14 +48,9 @@ export default function Hero() {
           <AnimatedNumbers
             includeComma
             animateToNumber={fixDecimalPlaces(num, 2)}
-            // configs={[{ mass: 3, tension: 18, friction: 13 }]}
           ></AnimatedNumbers>
           <div className="ml-1">paid</div>
         </div>
-        {/* <div className="mt-15 text-3xl">
-          Create paid conference channel in second, share via link, gets paid by
-          every second using blazing fast crypto payment on Aptos blockchain.
-        </div> */}
       </div>
     </div>
   );

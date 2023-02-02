@@ -1,5 +1,5 @@
 [package]
-name = 'PerSecondV4'
+name = 'PerSecondV5'
 version = '0.1.0'
 upgrade_policy = "compatible"
 

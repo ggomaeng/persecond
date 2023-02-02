@@ -62,7 +62,7 @@ export default function VideoComponent(props) {
           }}
         />
       ) : (
-        <div className="flex h-full w-full flex-grow flex-col items-center justify-center rounded-md border border-primary/50">
+        <div className="flex h-full w-full flex-grow flex-col items-center justify-center border border-primary/50">
           <div className="rounded-lg bg-primary p-2 text-sm text-bg">
             {abbreviateAddress(displayName)}
           </div>

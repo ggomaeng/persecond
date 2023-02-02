@@ -50,8 +50,8 @@ export default function Room() {
 
             <div className="flex flex-grow justify-between gap-[20px] px-[40px]">
               <div className="hide-scrollbar flex flex-grow flex-col">
-                {/* <Videos /> */}
-                <HostVideo />
+                <Videos />
+                {/* <HostVideo /> */}
                 {/* <Participants /> */}
               </div>
 

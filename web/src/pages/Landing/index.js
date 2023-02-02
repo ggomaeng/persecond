@@ -1,14 +1,14 @@
 import Header from "components/Header.js";
 import React from "react";
-import LandingSectionOne from "./LandingSectionOne.js";
-import LandingSectionTwo from "./LandingSectionTwo";
+import Hero from "./Hero.js";
+import Detail from "./Detail.js";
 
 export default function Landing() {
   return (
     <div>
       <Header />
-      <LandingSectionOne />
-      <LandingSectionTwo />
+      <Hero />
+      <Detail />
     </div>
   );
 }

@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { getHourMinuteSeconds } from "utils/numbers";
 
 export default function Counter() {
-  const defaultStartTime = 2 * 60 * 60 * 1000 + 30 * 60 * 1000 + 50 * 1000;
+  // const defaultStartTime = 2 * 60 * 60 * 1000 + 30 * 60 * 1000 + 50 * 1000;
+  const defaultStartTime = 0;
   const [timeState, setTimeState] = useState({
-    hours: 2,
-    minutes: 30,
-    seconds: 50,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
   });
 
   const [shouldAnimate, setShouldAnimate] = useState({
@@ -16,30 +17,31 @@ export default function Counter() {
   });
 
   useEffect(() => {
-    const startTime = new Date();
-    let hours = 2;
-    let minutes = 30;
-    let seconds = 50;
+    setTimeout(() => {
+      const startTime = new Date();
+      let hours = 0;
+      let minutes = 0;
+      let seconds = 0;
+      const intervalId = setInterval(() => {
+        const currentTime = new Date();
+        const elapsed = currentTime - startTime + defaultStartTime;
+        const { h, m, s } = getHourMinuteSeconds(Math.floor(elapsed / 1000));
 
-    const intervalId = setInterval(() => {
-      const currentTime = new Date();
-      const elapsed = currentTime - startTime + defaultStartTime;
-      const { h, m, s } = getHourMinuteSeconds(Math.floor(elapsed / 1000));
+        setShouldAnimate({
+          hours: isEqual(hours, h),
+          minutes: isEqual(minutes, m),
+          seconds: isEqual(seconds, s),
+        });
 
-      setShouldAnimate({
-        hours: isEqual(hours, h),
-        minutes: isEqual(minutes, m),
-        seconds: isEqual(seconds, s),
-      });
+        hours = h;
+        minutes = m;
+        seconds = s;
 
-      hours = h;
-      minutes = m;
-      seconds = s;
+        setTimeState({ hours, minutes, seconds });
+      }, 1000);
 
-      setTimeState({ hours, minutes, seconds });
-    }, 1000);
-
-    return () => clearInterval(intervalId);
+      return () => clearInterval(intervalId);
+    }, 3500);
   }, []);
 
   function isEqual(prev, curr) {

@@ -31,11 +31,15 @@ module.exports = {
         },
         growY60: {
           "0%": { minHeight: 0 },
-          "100%": { minHeight: "80%" },
+          "100%": { minHeight: "75%" },
+        },
+        growY90: {
+          "0%": { minHeight: 0 },
+          "100%": { minHeight: "86%" },
         },
         rotate180: {
-          "0%": { transform: "rotate(0deg)" },
-          "100%": { transform: "rotate(180deg)" },
+          "0%": { transform: "rotate(-10deg)" },
+          "100%": { transform: "rotate(190deg)" },
         },
         pop: {
           "0%": { transform: "scale(1)", opacity: "1", color: "#463b53" },
@@ -46,6 +50,7 @@ module.exports = {
       animation: {
         growY: "growY 1.5s ease-in-out forwards",
         growYmobile: "growY60 1.5s ease-in-out forwards",
+        growYRed: "growY90 1.5s ease-in-out forwards",
         rotate180: "rotate180 1.5s ease-in-out forwards",
         "pop-by-sec": "pop 1s infinite",
         fadeIn: "fade 125ms ease-in-out forwards",

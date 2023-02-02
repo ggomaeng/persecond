@@ -25,7 +25,7 @@ export default function LineBG() {
     <div className="relative flex h-full w-full overflow-hidden bg-bg">
       <div className="absolute left-[25vw] max-h-0 w-[1px] animate-growYmobile bg-white/10 mobile:animate-growY" />
       <div
-        className={`absolute left-[50vw] max-h-0 w-[2px] animate-growYmobile bg-white/10 transition-colors duration-500 mobile:animate-growY ${
+        className={`absolute left-[50vw] max-h-0 w-[2px] animate-growYRed bg-white/10 transition-colors duration-500 ${
           animationDone ? "bg-red-500" : "bg-white/10"
         }`}
         style={
@@ -48,7 +48,7 @@ export default function LineBG() {
       />
       <div className="flex-grow bg-transparent" />
       <div
-        className={`absolute left-0 top-[60%] w-screen animate-rotate180 rounded-full border-b-2 border-dashed border-white/10 bg-transparent pb-[100%] transition-colors duration-500 ${
+        className={`absolute left-0 top-[53%] w-[100%] animate-rotate180 rounded-full border-b-2 border-dashed border-white/10 bg-transparent pb-[100%] transition-colors duration-500 ${
           animationDone ? "border-white" : "border-white/10"
         }`}
         style={{

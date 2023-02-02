@@ -69,7 +69,7 @@ css-doodle {
         content: '';
         background: var(--color); 
         @place-cell: @r(100%) @r(100%);
-        @size: @r(10px);
+        @size: @r(6px);
         @shape: square;
       }
     

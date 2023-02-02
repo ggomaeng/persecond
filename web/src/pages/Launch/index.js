@@ -171,7 +171,7 @@ export default function Launch() {
             // if you want to wait for transaction
             await aptosClient.waitForTransaction(response?.hash || "");
             console.log(response, response?.hash);
-            navigate(`/room/${roomId}`);
+            navigate(`/room/${account?.address}/${roomId}`);
           } catch (e) {
             toastError(e);
           } finally {

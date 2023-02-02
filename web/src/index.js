@@ -34,7 +34,7 @@ const router = createBrowserRouter([
         element: <Join />,
       },
       {
-        path: "result/:wallet",
+        path: "result/:hash",
         element: <Result />,
       },
       {

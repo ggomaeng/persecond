@@ -14,7 +14,8 @@ export default function HostResult() {
       <FadeInComponent>
         <div className="mt-10 flex flex-col items-center border border-[#4a4a4a] bg-modal-bg py-15 px-10 text-center tablet:w-[480px]">
           <img className="w-[80px]" src="/assets/logo-single@2x.png" alt="" />
-          {true ? <Host /> : <Expert />}
+          {/* {true ? <Host /> : <Expert />} */}
+          <Expert />
         </div>
       </FadeInComponent>
     </div>

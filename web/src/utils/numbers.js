@@ -5,8 +5,13 @@ export function fixDecimalPlaces(num, places) {
   });
 }
 
+export function aptosToDigits(str, digits = 8) {
+  return fixDecimalPlaces(Number(str) / 1e8, digits);
+}
+
 export function formatHours(time) {
   if (!time) return;
+  console.log(time);
   const hours = Math.floor(time);
   const minutes = Math.floor((time - hours) * 60);
   const seconds = Math.floor(((time - hours) * 60 - minutes) * 60);

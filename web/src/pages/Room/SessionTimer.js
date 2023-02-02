@@ -3,7 +3,7 @@ import { toast } from "react-hot-toast";
 import { useRoomStore } from "stores/room.js";
 import { getHourMinuteSeconds } from "utils/numbers";
 
-export default function SessionTimer({ delay = 0 }) {
+export default function SessionTimer({ delay = 0, onTick }) {
   const session = useRoomStore((state) => state.session);
   console.log(session);
   const { started_at, max_duration } = session;
@@ -38,6 +38,7 @@ export default function SessionTimer({ delay = 0 }) {
           clearInterval(interval);
           return;
         }
+
         const { h, m, s } = getHourMinuteSeconds(Math.floor(elapsed / 1000));
 
         setShouldAnimate({
@@ -51,6 +52,7 @@ export default function SessionTimer({ delay = 0 }) {
         seconds = s;
 
         setTimeState({ hours, minutes, seconds });
+        onTick?.(elapsed / 1000);
       }, 1000);
     }
 

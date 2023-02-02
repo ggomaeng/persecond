@@ -36,7 +36,7 @@ export default function RoomHeader() {
         {/* <div className="ml-[20px] text-[22px]">Some cool room title</div> */}
         <ConnectWalletButton />
       </div>
-      {session?.started_at === "0" ? (
+      {/* {session?.started_at === "0" ? (
         <Button
           loading={starting}
           className="hidden tablet:flex"
@@ -73,38 +73,40 @@ export default function RoomHeader() {
         >
           Start Session
         </Button>
-      ) : (
-        <Button
-          loading={closing}
-          onClick={async () => {
-            if (network?.name !== "Devnet") {
-              toast("Please switch your network to Devnet");
-              return;
-            }
-            setClosing(true);
+      ) : ( */}
+      <Button
+        loading={closing}
+        onClick={async () => {
+          if (network?.name !== "Devnet") {
+            toast("Please switch your network to Devnet", {
+              icon: "⚠️",
+            });
+            return;
+          }
+          setClosing(true);
 
-            try {
-              const payload = {
-                type: "entry_function_payload",
-                function: `${CONTRACT_ADDRESS}::close_session`,
-                type_arguments: ["0x1::aptos_coin::AptosCoin"],
-                arguments: [wallet], // 1 is in Octas
-              };
-              const response = await signAndSubmitTransaction(payload);
-              // if you want to wait for transaction
-              await aptosClient.waitForTransaction(response?.hash || "");
-              await publish(response.hash);
-              console.log(response, response?.hash);
-            } catch (error) {
-              toastError(error);
-            } finally {
-              setClosing(false);
-            }
-          }}
-        >
-          Finish Session
-        </Button>
-      )}
+          try {
+            const payload = {
+              type: "entry_function_payload",
+              function: `${CONTRACT_ADDRESS}::close_session`,
+              type_arguments: ["0x1::aptos_coin::AptosCoin"],
+              arguments: [wallet], // 1 is in Octas
+            };
+            const response = await signAndSubmitTransaction(payload);
+            // if you want to wait for transaction
+            await aptosClient.waitForTransaction(response?.hash || "");
+            await publish(response.hash);
+            console.log(response, response?.hash);
+          } catch (error) {
+            toastError(error);
+          } finally {
+            setClosing(false);
+          }
+        }}
+      >
+        Finish Session
+      </Button>
+      {/* )} */}
     </div>
   );
 }

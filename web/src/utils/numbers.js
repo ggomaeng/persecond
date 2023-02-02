@@ -30,3 +30,25 @@ export function getHourMinuteSeconds(seconds) {
 export function getTotalSeconds(h, m, s) {
   return h * 3600 + m * 60 + s;
 }
+
+export function controlDecimal(num) {
+  let decimalPlaces;
+
+  if (num >= 1000) {
+    decimalPlaces = 2;
+  } else if (num >= 10) {
+    decimalPlaces = 3;
+  } else if (num >= 1) {
+    decimalPlaces = 4;
+  } else if (num >= 0.1) {
+    decimalPlaces = 5;
+  } else if (num >= 0.01) {
+    decimalPlaces = 6;
+  } else {
+    decimalPlaces = 7;
+  }
+
+  return num.toLocaleString("en-US", {
+    maximumFractionDigits: decimalPlaces,
+  });
+}

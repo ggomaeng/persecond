@@ -30,7 +30,7 @@ export default function Launch() {
   const notEnoughBalance = +balance < duration * price;
 
   return (
-    <div className="flex h-screen flex-col justify-center padded-horizontal">
+    <div className="my-[100px] flex flex-col justify-center padded-horizontal mobile:pt-[100px]">
       <Header />
       <div className="text-3xl text-primary">Create perSecond Link</div>
       <hr className="mt-5 mb-10 border-input-border" />
@@ -111,15 +111,19 @@ export default function Launch() {
       </div>
       {notEnoughBalance && (
         <div
-          className={`mt-2.5 flex items-center gap-1.5 text-lg text-[#e02020] ${
+          className={`mt-2.5 flex items-start gap-1.5 text-lg text-[#e02020] mobile:items-center ${
             true ? "opacity-1" : "pointer-events-none opacity-0"
-          } `}
+          }`}
         >
-          <img src="assets/not-valid@2x.png" className="w-5.5" alt="" />
+          <img
+            src="assets/not-valid@2x.png"
+            className="w-5 pt-0.5 mobile:w-5.5 mobile:pt-0"
+            alt=""
+          />
           Not sufficient balance to make a deposit to begin the meeting.
         </div>
       )}
-      <div className="mt-5 text-lg text-secondary">
+      <div className="mt-5 text-base text-secondary mobile:text-lg">
         The deposit tokens will be kept as a full-duration deposit for the
         meeting. Any unused balance will be refunded based on the actual
         duration of the meeting.

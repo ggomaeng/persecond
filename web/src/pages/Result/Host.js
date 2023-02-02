@@ -6,7 +6,7 @@ import { abbreviateAddress } from "utils/address";
 export default function Host() {
   return (
     <>
-      <div className="mt-5 text-2xl text-primary">
+      <div className="mt-5 text-xl text-primary mobile:text-2xl">
         Successfully completed the meeting with{" "}
         <span className="font-bold">
           {abbreviateAddress("2384819234bndfjgbsdlfkj2l34h")}
@@ -30,9 +30,11 @@ export default function Host() {
             <span className="font-bold text-primary"> {2323} </span>
             APT
           </div>
-          <Button className="mt-2 h-[18px] min-w-0 px-2 text-xs font-bold">
-            View transaction
-          </Button>
+          <div className="mt-2 flex justify-end">
+            <Button className="h-[18px] min-w-0 px-2 text-xs font-bold">
+              View transaction
+            </Button>
+          </div>
         </ResultItem>
       </div>
     </>

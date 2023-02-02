@@ -37,7 +37,7 @@ export default function Join() {
   }, []);
 
   return (
-    <div className="my-[100px] flex min-h-screen flex-col items-center justify-center padded-horizontal tablet:my-0">
+    <div className="my-[100px] flex flex-col items-center justify-center padded-horizontal tablet:pt-[100px]">
       <div className="flex w-[800px] max-w-full flex-col">
         <Header />
         <h1 className="text-2xl text-primary mobile:text-3xl">

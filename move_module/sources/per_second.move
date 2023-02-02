@@ -6,7 +6,7 @@ PerSecond.live: Timely Paid Aptos Stream
     4. Upon closing of the session, send payment to the receiver, and refund any remaining funds to the requester
 */
 
-module publisher::per_second_v6 {
+module publisher::per_second_v7 {
     use aptos_framework::account;
     use aptos_framework::coin::{Self, Coin};
     use aptos_framework::timestamp;
@@ -60,6 +60,7 @@ module publisher::per_second_v6 {
     struct CloseSessionEvent has drop, store {
         requester: address,
         receiver: address,
+        started_at: u64,
         finished_at: u64,
         paid_amount: u64,
         refunded_amount: u64,
@@ -173,6 +174,7 @@ module publisher::per_second_v6 {
         event::emit_event(&mut session.close_session_events, CloseSessionEvent {
             requester: requester_addr,
             receiver: session.receiver,
+            started_at: session.started_at,
             finished_at: session.finished_at,
             paid_amount: payment_amount,
             refunded_amount: refund_amount,

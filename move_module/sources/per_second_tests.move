@@ -121,4 +121,7 @@ module publisher::payment_stream_tests {
         assert!(receiver == receiver_addr, 1);
         assert!(deposit_amount == 7200, 1);
     }
+
+    // #[test(aptos_framework = @0x1, requester = @0x123, receiver = @0x456)]
+    // public fun test_start_session()
 }

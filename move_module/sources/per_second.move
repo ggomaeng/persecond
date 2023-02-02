@@ -1,12 +1,12 @@
 /*
-PerSecond.live: Payment stream for 1:1 video consulting
+PerSecond.live: Timely Paid Aptos Stream
     1. A requester can initiate a payment stream session for a video call
     2. The receiver can join the session through the video call link
     3. Upon joining both parties, the requester can start the session and activate the per-second payment stream
     4. Upon closing of the session, send payment to the receiver, and refund any remaining funds to the requester
 */
 
-module publisher::per_second {
+module publisher::per_second_v6 {
     use aptos_framework::account;
     use aptos_framework::coin::{Self, Coin};
     use aptos_framework::timestamp;

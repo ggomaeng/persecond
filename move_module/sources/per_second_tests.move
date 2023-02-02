@@ -7,7 +7,7 @@ module publisher::payment_stream_tests {
     use std::signer;
     use std::string;
 
-    use publisher::per_second;
+    use publisher::per_second_v6 as per_second;
 
     fun setup(aptos_framework: &signer) {
         timestamp::set_time_has_started_for_testing(aptos_framework);

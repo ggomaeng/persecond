@@ -103,6 +103,23 @@ module publisher::payment_stream {
         coin::deposit<CoinType>(requester_addr, coinst_to_refund);
     }
 
+    #[view]
+    public entry fun remaining_time<CoinType>(requester_addr: address): u64 acquires Session {
+        let session = borrow_global<Session<CoinType>>(requester_addr);
+        let current_time = timestamp::now_seconds();
+
+        if (session.started_at == 0) {
+            return session.max_duration
+        };
+
+        let finished_at_max = session.started_at + session.max_duration;
+        if (finished_at_max > current_time) {
+            return finished_at_max - current_time
+        } else {
+            return 0
+        }
+    }
+
     #[test_only]
     use aptos_framework::aptos_account;
     #[test_only]
@@ -130,13 +147,19 @@ module publisher::payment_stream {
     }
 
     #[test(aptos_framework = @0x1, requester = @0x123)]
-    public entry fun test_create_session(aptos_framework: &signer, requester: &signer) {
+    public entry fun test_create_session(aptos_framework: &signer, requester: &signer) acquires Session {
         setup(aptos_framework);
         set_up_account(aptos_framework, requester, 10000);
 
-        create_session<AptosCoin>(requester, 60 * 60, 1);
+        create_session<AptosCoin>(requester, 3600, 1);
 
         let requester_addr = signer::address_of(requester);
-        assert!(coin::balance<AptosCoin>(requester_addr) == 10000 - 60 * 60, 1);
+
+        assert!(coin::balance<AptosCoin>(requester_addr) == 10000 - 3600, 1);
+
+        // Remaining time
+        assert!(remaining_time<AptosCoin>(requester_addr) == 3600, 2);
+        timestamp::fast_forward_seconds(1000);
+        assert!(remaining_time<AptosCoin>(requester_addr) == 3600, 2); // should not change if not started
     }
 }

@@ -1,10 +1,18 @@
 import { useMeeting } from "@videosdk.live/react-sdk";
 import VideoComponent from "pages/Room/VideoComponent.js";
 import React, { useEffect, useState } from "react";
+import { useAppStore } from "stores/app.js";
 
 export default function Videos(props) {
+  const setFullLoading = useAppStore((state) => state.setFullLoading);
   const [joined, setJoined] = useState(false);
-  const { join, participants } = useMeeting();
+  const { join, participants } = useMeeting({
+    onMeetingJoined: () => {
+      console.log("Meeting Joined");
+      setFullLoading(false);
+      setJoined(true);
+    },
+  });
 
   useEffect(() => {
     //TODO - add logic to check data with aptos blockchain and then join automatically if valid
@@ -12,6 +20,7 @@ export default function Videos(props) {
 
   const joinMeeting = () => {
     setJoined(true);
+    setFullLoading(true);
     join();
   };
 

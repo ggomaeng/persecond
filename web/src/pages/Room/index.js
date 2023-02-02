@@ -32,7 +32,7 @@ export default function Room() {
   //   checkRoom();
   // }, [roomId]);
 
-  if (!roomId) return null;
+  // if (!roomId) return null;
 
   return (
     <MeetingProvider
@@ -49,19 +49,21 @@ export default function Room() {
     >
       <MeetingConsumer>
         {() => (
-          <div className="relative flex h-screen flex-col text-white">
+          <div className="relative flex h-full flex-col text-white tablet:h-screen">
             <RoomHeader />
 
-            <div className="flex flex-1 justify-between gap-[20px] px-[40px]">
-              <div className="hide-scrollbar flex flex-grow flex-col">
-                <Videos />
-                {/* <HostVideo /> */}
+            <div className="flex flex-1 flex-col justify-between gap-[20px] tablet:flex-row tablet:px-[40px]">
+              <div className="hide-scrollbar flex h-[70vh] flex-grow flex-col">
+                {/* <Videos /> */}
+                <HostVideo />
                 {/* <Participants /> */}
               </div>
 
-              <div className="flex h-full max-w-[280px] flex-col gap-[20px]">
+              <div className="flex h-full flex-col gap-[20px] tablet:max-w-[280px]">
                 <SessionBoard />
-                <Chat />
+                <div className="hidden tablet:flex">
+                  <Chat />
+                </div>
               </div>
             </div>
             {/* <Container meetingId={roomId} /> */}

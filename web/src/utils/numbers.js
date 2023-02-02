@@ -10,7 +10,7 @@ export function aptosToDigits(str, digits = 8) {
 }
 
 export function formatHours(time) {
-  if (!time) return;
+  if (!time) return "00:00:00";
   const hours = Math.floor(time);
   const minutes = Math.floor((time - hours) * 60);
   const seconds = Math.floor(((time - hours) * 60 - minutes) * 60);

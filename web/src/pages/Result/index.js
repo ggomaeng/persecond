@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Button from "components/Button";
 import Host from "./Host";
-import Audience from "./Audience";
+import Expert from "./Expert";
 import Loading from "components/Loading";
 import { Link } from "react-router-dom";
+import { abbreviateAddress } from "utils/address";
 
 export default function HostResult() {
   const [isLoading, setIsLoading] = useState(true);
@@ -27,11 +28,7 @@ export default function HostResult() {
           </Link>
           <div className="mt-10 flex w-[480px] flex-col items-center border border-[#4a4a4a] bg-modal-bg py-15 px-10 text-center">
             <img className="w-[80px]" src="/assets/logo-single@2x.png" alt="" />
-            <div className="mt-5 text-2xl text-primary">
-              Successfully completed the{" "}
-              <span className="font-bold">{dummy.title}</span> session!
-            </div>
-            {false ? <Host /> : <Audience />}
+            {false ? <Host /> : <Expert />}
           </div>
         </>
       ) : (

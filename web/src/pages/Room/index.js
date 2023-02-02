@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   MeetingProvider,
@@ -7,7 +7,7 @@ import {
   useParticipant,
 } from "@videosdk.live/react-sdk";
 import { useParams } from "react-router-dom";
-import { api } from "utils/api.js";
+import { api, serverApi } from "utils/api.js";
 import Videos from "pages/Room/Videos.js";
 import Chat from "pages/Room/Chat.js";
 import Controls from "pages/Room/Controls.js";
@@ -20,18 +20,20 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 export default function Room() {
   const { roomId } = useParams();
   const { account } = useWallet();
+  // const [token, setToken] = useState(null);
 
-  console.log(account);
+  // console.log(account);
 
-  useEffect(() => {
-    // async function checkRoom() {
-    //   const result = await api.get(`${roomId}`).json();
-    //   console.log(result);
-    // }
-    // if (roomId) checkRoom();
-  }, [roomId]);
+  // useEffect(() => {
+  //   async function checkRoom() {
+  //     const { token } = await serverApi.get(`get-token`).json();
+  //     setToken(token);
+  //   }
+  //   checkRoom();
+  // }, [roomId]);
 
   if (!roomId) return null;
+  console.log(process.env.REACT_APP_VIDEOSDK_TOKEN);
 
   return (
     <MeetingProvider
@@ -42,6 +44,7 @@ export default function Room() {
         name: account?.address || "Guest",
       }}
       token={process.env.REACT_APP_VIDEOSDK_TOKEN}
+      // token={token}
     >
       <MeetingConsumer>
         {() => (

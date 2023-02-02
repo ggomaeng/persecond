@@ -5,7 +5,7 @@ import Header from "components/Header";
 import Input from "components/Input";
 import { fixDecimalPlaces } from "utils/numbers";
 import { useLaunchStore } from "stores/create";
-import { api } from "utils/api.js";
+import { api, serverApi } from "utils/api.js";
 import { useNavigate } from "react-router-dom";
 import { aptosClient, CONTRACT_ADDRESS } from "utils/aptos.js";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
@@ -132,7 +132,15 @@ export default function Launch() {
           try {
             setLoading(true);
             const result = await api.post("").json();
+            // const result = await serverApi
+            //   .post("create-meeting", {
+            //     json: {
+            //       token: process.env.REACT_APP_VIDEOSDK_TOKEN,
+            //     },
+            //   })
+            //   .json();
             const { roomId } = result;
+            console.log(result);
             const args = [
               3600 * duration,
               BigNumber.from(price).mul(1e8).div(3600).toNumber(),
@@ -145,6 +153,12 @@ export default function Launch() {
               type_arguments: ["0x1::aptos_coin::AptosCoin"],
               arguments: args,
             };
+            // const payload = {
+            //   type: "entry_function_payload",
+            //   function: `${CONTRACT_ADDRESS}::close_session`,
+            //   type_arguments: ["0x1::aptos_coin::AptosCoin"],
+            //   arguments: [account.address],
+            // };
             const response = await signAndSubmitTransaction(payload);
             // if you want to wait for transaction
             await aptosClient.waitForTransaction(response?.hash || "");

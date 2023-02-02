@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "css-doodle";
 import { useAppStore } from "stores/app.js";
+import { useLocation } from "react-router-dom";
 
 export default function Loading() {
   const fullLoading = useAppStore((state) => state.fullLoading);
+  const setFullLoading = useAppStore((state) => state.setFullLoading);
+  const location = useLocation();
+
+  useEffect(() => {
+    setFullLoading(false);
+  }, [location]);
 
   if (!fullLoading) return null;
 

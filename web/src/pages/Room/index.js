@@ -48,7 +48,7 @@ export default function Room() {
           <div className="relative flex h-screen flex-col text-white">
             <RoomHeader />
 
-            <div className="flex flex-grow justify-between gap-[20px] px-[40px]">
+            <div className="flex flex-1 justify-between gap-[20px] px-[40px]">
               <div className="hide-scrollbar flex flex-grow flex-col">
                 <Videos />
                 {/* <HostVideo /> */}

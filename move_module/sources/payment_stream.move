@@ -226,4 +226,14 @@ module publisher::payment_stream_v3 {
         create_session<AptosCoin>(requester, 1000, 2, string::utf8(b"room_def"));
         assert!(coin::balance<AptosCoin>(requester_addr) == 10000 - 2000, 2);
     }
+
+    #[test(aptos_framework = @0x1, requester = @0x123)]
+    #[expected_failure(abort_code = 0x30001, location = Self)]
+    public fun test_recreate_the_session_before_finish(aptos_framework: &signer, requester: &signer) acquires Session {
+        setup(aptos_framework);
+        set_up_account(aptos_framework, requester, 10000);
+
+        create_session<AptosCoin>(requester, 3600, 1, string::utf8(b"room_abc"));
+        create_session<AptosCoin>(requester, 1000, 2, string::utf8(b"room_def")); // should fail
+    }
 }

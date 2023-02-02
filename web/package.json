@@ -16,6 +16,7 @@
     "@videosdk.live/react-sdk": "^0.1.61",
     "aptos": "^1.6.0",
     "css-doodle": "^0.32.2",
+    "ethers": "^5.7.2",
     "fewcha-plugin-wallet-adapter": "^0.1.1",
     "ky": "^0.33.2",
     "lodash": "^4.17.21",

@@ -6,11 +6,45 @@ import MicOnIcon from "pages/Room/Icons/MicOnIcon.js";
 import ParticipantsIcon from "pages/Room/Icons/ParticipantsIcon.js";
 import ScreenShareIcon from "pages/Room/Icons/ScreenShareIcon.js";
 import WebcamOnIcon from "pages/Room/Icons/WebcamOnIcon.js";
+import { useState } from "react";
 
 const { useMeeting } = require("@videosdk.live/react-sdk");
 
 export default function Controls() {
-  const { leave, toggleMic, toggleWebcam } = useMeeting();
+  const [mics, setMics] = useState([]);
+  const [cams, setCams] = useState([]);
+  const {
+    localParticipant,
+    localMicOn,
+    localWebcamOn,
+    leave,
+    toggleMic,
+    toggleWebcam,
+    changeWebcam,
+    changeMic,
+    getWebcams,
+    getMics,
+  } = useMeeting({
+    onMeetingJoined,
+  });
+
+  async function onMeetingJoined() {
+    try {
+      const mics = await getMics();
+      const cams = await getWebcams();
+      setMics(mics);
+      setCams(cams);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  const activeDeviceIds =
+    localParticipant?.streams &&
+    [...localParticipant?.streams?.values?.()].map(
+      (item) => item?.track?.label
+    );
+
   return (
     <div className="fixed bottom-0 flex w-screen justify-between p-[20px]">
       <div>
@@ -24,16 +58,24 @@ export default function Controls() {
       </div>
       <div className="flex">
         <ControlItem
+          id="mic"
           className="mr-3 px-1"
           onClick={toggleMic}
-          icon={<MicOnIcon fillcolor="#dfcefd" />}
-          options
+          icon={<MicOnIcon fillcolor={localMicOn ? "#dfcefd" : "#453f50"} />}
+          options={mics}
+          activeOptions={activeDeviceIds}
+          onOptionClick={(option) => changeMic(option)}
         />
         <ControlItem
+          id="cam"
           className="mr-3 px-1"
           onClick={toggleWebcam}
-          icon={<WebcamOnIcon fillcolor="#dfcefd" />}
-          options
+          icon={
+            <WebcamOnIcon fillcolor={localWebcamOn ? "#dfcefd" : "#453f50"} />
+          }
+          options={cams}
+          activeOptions={activeDeviceIds}
+          onOptionClick={(option) => changeWebcam(option)}
         />
         <ControlItem
           className="mr-3"

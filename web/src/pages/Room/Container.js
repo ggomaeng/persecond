@@ -17,7 +17,7 @@ export default function Container(props) {
       {joined ? (
         <div>
           {[...participants.keys()].map((participantId) => (
-            <VideoComponent participantId={participantId} />
+            <VideoComponent key={participantId} participantId={participantId} />
           ))}
         </div>
       ) : (

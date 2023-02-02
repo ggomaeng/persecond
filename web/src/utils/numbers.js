@@ -6,6 +6,7 @@ export function fixDecimalPlaces(num, places) {
 }
 
 export function formatHours(time) {
+  if (!time) return;
   const hours = Math.floor(time);
   const minutes = Math.floor((time - hours) * 60);
   const seconds = Math.floor(((time - hours) * 60 - minutes) * 60);

@@ -50,16 +50,9 @@ export default function Controls() {
 
   return (
     <div className="flex h-[120px] w-screen justify-between p-[40px] backdrop-blur-sm">
-      <div>
-        <ControlItem
-          className="px-3"
-          onClick={leave}
-          icon={<ClipboardIcon fillcolor="#dfcefd" />}
-        >
-          <span className="mr-1">Share Link</span>
-        </ControlItem>
-      </div>
-      <div className="flex">
+      <div className="flex flex-grow" />
+
+      <div className="flex flex-grow justify-center">
         <ControlItem
           id="mic"
           className="mr-3 px-1"
@@ -95,11 +88,11 @@ export default function Controls() {
           icon={<EndIcon fillcolor="white" />}
         />
       </div>
-      <div className="flex">
-        <ControlItem onClick={leave} icon={<ChatIcon fillcolor="#dfcefd" />} />
+
+      <div className="flex flex-grow justify-end">
+        <ControlItem icon={<ChatIcon fillcolor="#dfcefd" />} />
         <ControlItem
           className="ml-3"
-          onClick={leave}
           icon={<ParticipantsIcon fillcolor="#dfcefd" />}
         />
       </div>

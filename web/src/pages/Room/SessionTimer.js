@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
+import { useRoomStore } from "stores/room.js";
 import { getHourMinuteSeconds } from "utils/numbers";
 
-export default function Counter({ delay = 0 }) {
-  // const defaultStartTime = 2 * 60 * 60 * 1000 + 30 * 60 * 1000 + 50 * 1000;
-  const defaultStartTime = 0;
+export default function SessionTimer({ delay = 0 }) {
+  const session = useRoomStore((state) => state.session);
+  console.log(session);
+  const { started_at, max_duration } = session;
   const [timeState, setTimeState] = useState({
     hours: 0,
     minutes: 0,
@@ -17,15 +20,24 @@ export default function Counter({ delay = 0 }) {
   });
 
   useEffect(() => {
-    let timeout, interval;
-    timeout = setTimeout(() => {
-      const startTime = new Date();
+    let interval;
+    if (started_at && started_at !== "0") {
+      console.log(started_at);
       let hours = 0;
       let minutes = 0;
       let seconds = 0;
       interval = setInterval(() => {
         const currentTime = new Date();
-        const elapsed = currentTime - startTime + defaultStartTime;
+        const elapsed = currentTime - started_at * 1000;
+        if (elapsed > max_duration * 1000) {
+          console.log("should end");
+          toast(
+            'Session ended. Any participant can click "Finish the session" button above for the payout.',
+            { icon: "👋" }
+          );
+          clearInterval(interval);
+          return;
+        }
         const { h, m, s } = getHourMinuteSeconds(Math.floor(elapsed / 1000));
 
         setShouldAnimate({
@@ -40,15 +52,12 @@ export default function Counter({ delay = 0 }) {
 
         setTimeState({ hours, minutes, seconds });
       }, 1000);
-
-      return () => clearInterval(interval);
-    }, delay);
+    }
 
     return () => {
-      timeout && clearTimeout(timeout);
       interval && clearInterval(interval);
     };
-  }, []);
+  }, [started_at]);
 
   function isEqual(prev, curr) {
     if (prev === curr) return false;

@@ -2,36 +2,37 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import Button from "components/Button";
 import ConnectWalletButton from "components/ConnectWalletButton.js";
 import Header from "components/Header";
-import { BigNumber } from "ethers";
-import { formatUnits } from "ethers/lib/utils.js";
 import { useEffect, useState } from "react";
-import ReactPlayer from "react-player";
+import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import Webcam from "react-webcam";
 import { useAppStore } from "stores/app.js";
 import { abbreviateAddress } from "utils/address";
 import { aptosClient, CONTRACT_ADDRESS, getSession } from "utils/aptos.js";
 import { fixDecimalPlaces } from "utils/numbers.js";
+import { toastError } from "utils/toasts.js";
 import StepBase from "../Launch/StepBase";
 
 export default function Join() {
-  const { roomId } = useParams();
+  const { wallet } = useParams();
   const setFullLoading = useAppStore((state) => state.setFullLoading);
   const [data, setData] = useState({});
-  const { signAndSubmitTransaction } = useWallet();
+  const { signAndSubmitTransaction, network } = useWallet();
   const navigate = useNavigate();
+
+  console.log(network);
 
   useEffect(() => {
     async function getRoomInfo() {
-      console.log(roomId);
+      console.log(wallet);
       setFullLoading(true);
-      const session = await getSession(roomId);
+      const session = await getSession(wallet);
       setFullLoading(false);
       setData(session);
       console.log("session", session);
     }
 
-    if (roomId) {
+    if (wallet) {
       getRoomInfo();
     }
   }, []);
@@ -72,7 +73,7 @@ export default function Join() {
                 </span>
               </div>
               <div>Max duration: {data?.max_duration / 3600} hours</div>
-              <div>Requestor: {abbreviateAddress(roomId)}</div>
+              <div>Requestor: {abbreviateAddress(wallet)}</div>
             </div>
           </div>
           <div className="flex flex-col">
@@ -90,26 +91,26 @@ export default function Join() {
               <Button
                 className="mt-5 flex items-center justify-center font-semibold"
                 onClick={async () => {
+                  if (network?.name !== "Devnet") {
+                    toast("Please switch your network to Devnet");
+                    return;
+                  }
                   const payload = {
                     type: "entry_function_payload",
                     function: `${CONTRACT_ADDRESS}::join_session`,
                     type_arguments: ["0x1::aptos_coin::AptosCoin"],
-                    arguments: [roomId], // 1 is in Octas
+                    arguments: [wallet], // 1 is in Octas
                   };
 
                   try {
                     const response = await signAndSubmitTransaction(payload);
                     // if you want to wait for transaction
                     await aptosClient.waitForTransaction(response?.hash || "");
-                    navigate(`/room/${data?.room_id}`);
+                    navigate(`/room/${wallet}/${data?.room_id}`);
                     console.log(response, response?.hash);
                   } catch (error) {
-                    console.log("error", error);
+                    toastError(error);
                   }
-                  // const result = await api.post("").json();
-                  // const { roomId, id } = result;
-                  // navigate(`/rooms/${roomId}`);
-                  // console.log(result);
                 }}
               >
                 Proceed to join

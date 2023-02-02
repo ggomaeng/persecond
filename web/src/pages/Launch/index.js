@@ -1,20 +1,20 @@
-import React from "react";
-import StepBase from "../Join/StepBase";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import Button from "components/Button";
+import ConnectWalletButton from "components/ConnectWalletButton.js";
 import Header from "components/Header";
 import Input from "components/Input";
-import { fixDecimalPlaces } from "utils/numbers";
-import { useLaunchStore } from "stores/create";
-import { api, serverApi } from "utils/api.js";
-import { useNavigate } from "react-router-dom";
-import { aptosClient, CONTRACT_ADDRESS } from "utils/aptos.js";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import ConnectWalletButton from "components/ConnectWalletButton.js";
-import useAptosBalance from "hooks/useAptosBalance.js";
-import { commify, formatUnits, parseUnits } from "ethers/lib/utils.js";
 import { BigNumber } from "ethers";
+import { commify } from "ethers/lib/utils.js";
+import useAptosBalance from "hooks/useAptosBalance.js";
+import React from "react";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { useLaunchStore } from "stores/create";
+import { api } from "utils/api.js";
+import { aptosClient, CONTRACT_ADDRESS } from "utils/aptos.js";
+import { fixDecimalPlaces } from "utils/numbers";
 import { toastError } from "utils/toasts.js";
+import StepBase from "../Join/StepBase";
 
 export default function Launch() {
   const { price, duration, setPrice, setDuration } = useLaunchStore(
@@ -22,7 +22,7 @@ export default function Launch() {
   );
   const { balance } = useAptosBalance();
 
-  const { account, signAndSubmitTransaction } = useWallet();
+  const { account, signAndSubmitTransaction, network } = useWallet();
 
   const [isModal, setIsModal] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -134,6 +134,10 @@ export default function Launch() {
         loading={loading}
         onClick={async () => {
           try {
+            if (network?.name !== "Devnet") {
+              toast("Please switch your network to Devnet");
+              return;
+            }
             setLoading(true);
             const result = await api.post("").json();
             // const result = await serverApi

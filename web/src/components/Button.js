@@ -28,7 +28,7 @@ export default function Button({
         onPointerEnter={() => setHovering(true)}
         onPointerLeave={() => setHovering(false)}
         className={twMerge(
-          "relative z-[1] flex h-[40px] min-w-[140px] items-center border border-primary bg-bg px-4 font-bold text-primary transition-all enabled:hover:bg-primary enabled:hover:text-black disabled:opacity-50 ",
+          "relative z-[1] flex h-[40px] min-w-[140px] items-center justify-center border border-primary bg-bg px-4 font-bold text-primary transition-all enabled:hover:bg-primary enabled:hover:text-black disabled:opacity-50 ",
           className
         )}
         disabled={props.disabled}

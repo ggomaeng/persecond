@@ -30,15 +30,15 @@ const router = createBrowserRouter([
         element: <Launch />,
       },
       {
-        path: "join/:roomId",
+        path: "join/:wallet",
         element: <Join />,
       },
       {
-        path: "result",
+        path: "result/:wallet",
         element: <Result />,
       },
       {
-        path: "room/:roomId",
+        path: "room/:wallet/:roomId",
         element: <Room />,
       },
     ],

@@ -40,14 +40,18 @@ export default function Room() {
     >
       <MeetingConsumer>
         {() => (
-          <div className="text-white">
+          <div className="relative text-white">
             <RoomHeader />
-            <div className="flex justify-between gap-[20px] px-[40px]">
-              <div className="flex flex-grow flex-col">
+
+            <div className="flex justify-between gap-[20px] px-[40px] py-[120px]">
+              <div className="hide-scrollbar flex max-w-[calc(100vw-380px)] flex-grow flex-col">
                 <HostVideo />
                 <Participants />
               </div>
-              <Chat />
+
+              <div className="fixed right-[40px] top-[120px] max-h-[100vh-120px] w-[280px]">
+                <Chat />
+              </div>
             </div>
             {/* <Container meetingId={roomId} /> */}
             <Controls />

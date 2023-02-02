@@ -3,7 +3,7 @@ import React from "react";
 
 export default function RoomHeader() {
   return (
-    <div className="flex w-full items-center justify-between p-[40px]">
+    <div className="fixed top-0 left-0 flex h-[120px] w-full items-center justify-between px-[40px] backdrop-blur-sm">
       <div className="flex items-center">
         <img
           className="h-[40px] w-[40px]"

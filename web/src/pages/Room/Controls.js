@@ -17,14 +17,12 @@ export default function Controls() {
     localParticipant,
     localMicOn,
     localWebcamOn,
-    localScreenShareOn,
     leave,
     toggleMic,
     toggleWebcam,
     changeWebcam,
     changeMic,
     getWebcams,
-    enableScreenShare,
     getMics,
   } = useMeeting({
     onMeetingJoined,
@@ -48,7 +46,7 @@ export default function Controls() {
     );
 
   return (
-    <div className="fixed bottom-0 flex w-screen justify-between p-[20px]">
+    <div className="fixed bottom-0 flex w-screen justify-between p-[20px] backdrop-blur-sm">
       <div>
         <ControlItem
           className="px-3"

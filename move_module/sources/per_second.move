@@ -6,7 +6,7 @@ PerSecond.live: Timely Paid Aptos Stream
     4. Upon closing of the session, send payment to the receiver, and refund any remaining funds to the requester
 */
 
-module publisher::per_second_v7 {
+module publisher::per_second_v8 {
     use aptos_framework::account;
     use aptos_framework::coin::{Self, Coin};
     use aptos_framework::timestamp;
@@ -62,6 +62,7 @@ module publisher::per_second_v7 {
         receiver: address,
         started_at: u64,
         finished_at: u64,
+        second_rate: u64,
         paid_amount: u64,
         refunded_amount: u64,
     }
@@ -176,6 +177,7 @@ module publisher::per_second_v7 {
             receiver: session.receiver,
             started_at: session.started_at,
             finished_at: session.finished_at,
+            second_rate: session.second_rate,
             paid_amount: payment_amount,
             refunded_amount: refund_amount,
         });

@@ -1,6 +1,6 @@
 [package]
-name = 'PerSecondV7'
-version = '0.7.108'
+name = 'PerSecondV8'
+version = '0.8.109'
 upgrade_policy = "compatible"
 
 [addresses]

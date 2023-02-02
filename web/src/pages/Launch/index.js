@@ -3,7 +3,7 @@ import Button from "components/Button";
 import ConnectWalletButton from "components/ConnectWalletButton.js";
 import Header from "components/Header";
 import Input from "components/Input";
-import { BigNumber } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { commify } from "ethers/lib/utils.js";
 import useAptosBalance from "hooks/useAptosBalance.js";
 import React from "react";
@@ -52,7 +52,7 @@ export default function Launch() {
             <Input
               type="number"
               value={price}
-              min={1}
+              min={0}
               onChange={setPrice}
               placeholder="0.00"
             >
@@ -154,7 +154,9 @@ export default function Launch() {
             console.log(result);
             const args = [
               3600 * duration,
-              BigNumber.from(price).mul(1e8).div(3600).toNumber(),
+              BigNumber.from(ethers.utils.parseUnits(price, 8))
+                .div(3600)
+                .toNumber(),
               roomId,
             ];
 

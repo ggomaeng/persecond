@@ -3,7 +3,7 @@ name = 'payment_stream'
 version = '1.0.0'
 
 [addresses]
-publisher="_"
+publisher="e53f73c034591efbd8c4d4e469f7bcbf03426bff3f5267a38a0837d2899f896c"
 
 [dev-addresses]
 publisher="0xC0FFEE"

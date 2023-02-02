@@ -1,5 +1,5 @@
 # PerSecond Modules
-Payment stream module for 1:1 video consulting
+Timely Paid Aptos Stream
 1. A requester can initiate a payment stream session for a video call
 2. The receiver can join the session through the video call link
 3. Upon joining both parties, the requester can start the session and activate the per-second payment stream

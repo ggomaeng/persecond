@@ -18,7 +18,7 @@ export default function LandingSectionOne() {
         />
         {/* <ConnectWalletButton /> */}
         {/* <TestBalance /> */}
-        <div className="mt-[80px] text-center text-3xl font-bold text-primary mobile:text-[60px]">
+        <div className="mt-[80px] text-center text-3xl font-bold text-primary mobile:text-[60px] mobile:leading-[72px]">
           <div>Connect in seconds,</div>
           <div>get paid by seconds</div>
           <div className="mt-[20px] text-[24px] font-normal">

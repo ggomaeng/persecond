@@ -6,7 +6,8 @@ module.exports = {
       colors: {
         primary: "#dfcefd",
         secondary: "#8a6eaa",
-        "input-border": "#2a1636",
+        "input-border": "#4a4a4a",
+        "option-border": "#2a1636",
         "modal-bg": "#170726",
         bg: "#150c1d",
         "dark-purple": "#463b53",

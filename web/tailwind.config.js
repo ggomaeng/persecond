@@ -34,7 +34,7 @@ module.exports = {
         },
         pop: {
           "0%": { transform: "scale(1)", opacity: "1", color: "#463b53" },
-          "12%": { transform: "scale(1.07)", opacity: "0.8" },
+          "12%": { transform: "scale(1.05)", opacity: "0.8" },
           "20%,100%": { transform: "scale(1)", opacity: "1", color: "#463b53" },
         },
       },

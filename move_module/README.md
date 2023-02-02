@@ -14,6 +14,7 @@ aptos init
 ## Run tests
 ```sh
 aptos move test
+aptos move prove --named-addresses publisher=default
 ```
 
 ## Deploy

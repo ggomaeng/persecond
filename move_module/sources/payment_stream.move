@@ -104,7 +104,7 @@ module publisher::payment_stream {
     }
 
     #[view]
-    public entry fun remaining_time<CoinType>(requester_addr: address): u64 acquires Session {
+    public fun remaining_time<CoinType>(requester_addr: address): u64 acquires Session {
         let session = borrow_global<Session<CoinType>>(requester_addr);
         let current_time = timestamp::now_seconds();
 

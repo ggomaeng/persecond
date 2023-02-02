@@ -6,6 +6,7 @@ export default function Input({
   onChange,
   children,
   limit,
+  min,
   ...props
 }) {
   return (
@@ -14,6 +15,7 @@ export default function Input({
         {...props}
         onChange={(e) => {
           let value = e.target.value;
+          if (value && value < min) value = min;
           if (limit) {
             if (value.length <= limit) {
               onChange(value);

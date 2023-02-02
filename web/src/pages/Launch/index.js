@@ -52,6 +52,7 @@ export default function Launch() {
             <Input
               type="number"
               value={price}
+              min={1}
               onChange={setPrice}
               placeholder="0.00"
             >

@@ -4,7 +4,7 @@ import Button from "components/Button.js";
 import ConnectWalletButton from "components/ConnectWalletButton.js";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useRoomStore } from "stores/room.js";
 import { aptosClient, CONTRACT_ADDRESS } from "utils/aptos.js";
 import { toastError } from "utils/toasts.js";
@@ -28,14 +28,22 @@ export default function RoomHeader() {
   return (
     <div className="flex h-[80px] w-screen items-center justify-between px-[20px] backdrop-blur-sm tablet:h-[120px] tablet:px-[40px]">
       <div className="flex items-center">
-        <img
-          className="mr-[20px] h-[40px] w-[40px]"
-          src="/assets/logo-single@2x.png"
-          alt="logo"
-        />
+        <Link to="/">
+          <div className="mr-[20px] flex items-center">
+            <img
+              className="h-[40px] w-[40px]"
+              src="/assets/logo-single@2x.png"
+              alt="logo"
+            />
+            <div className="ml-[10px] rounded-full bg-primary px-2 py-1 text-xs text-black">
+              Testnet
+            </div>
+          </div>
+        </Link>
         <ConnectWalletButton className="hidden tablet:flex" />
-        {/* <div className="ml-[20px] text-[22px]">Some cool room title</div> */}
       </div>
+      {/* <div className="ml-[20px] text-[22px]">Some cool room title</div> */}
+      {/* </div> */}
       {/* {session?.started_at === "0" ? (
         <Button
           loading={starting}

@@ -8,7 +8,7 @@ export default function Loading() {
         <css-doodle use="var(--rule)"></css-doodle>
       </div>
       <img
-        className="h-20 w-20 animate-pulse"
+        className="h-20 w-20 animate-pulse opacity-50"
         src="/assets/logo-single@2x.png"
         alt=""
       />

@@ -49,7 +49,7 @@ export default function Room() {
     >
       <MeetingConsumer>
         {() => (
-          <div className="relative flex h-full flex-col text-white tablet:h-screen">
+          <div className="relative flex h-screen flex-col text-white ">
             <RoomHeader />
 
             <div className="flex flex-1 flex-col justify-between gap-[20px] tablet:flex-row tablet:px-[40px]">
@@ -59,15 +59,15 @@ export default function Room() {
                 {/* <Participants /> */}
               </div>
 
-              <div className="flex h-full flex-col gap-[20px] tablet:max-w-[280px]">
+              <div className="flex max-w-full flex-col gap-[20px] fullscreen:max-w-[280px]">
                 <SessionBoard />
-                <div className="hidden tablet:flex">
+                <div className="hidden h-full fullscreen:flex">
                   <Chat />
                 </div>
               </div>
             </div>
-            {/* <Container meetingId={roomId} /> */}
             <Controls />
+            {/* <Container meetingId={roomId} /> */}
           </div>
         )}
       </MeetingConsumer>

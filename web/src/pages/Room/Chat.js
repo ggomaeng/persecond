@@ -14,7 +14,7 @@ export default function Chat() {
   }, [messages]);
 
   return (
-    <div className="flex w-[280px] flex-1 flex-col border border-primary/50 p-5">
+    <div className="flex h-full w-[280px] flex-1 flex-col border border-primary/50 p-5">
       <div className="border-b border-primary/50 pb-[10px]">Chat</div>
       <div
         className="hide-scrollbar flex-[1_1_1px] flex-col overflow-y-scroll py-[20px]"

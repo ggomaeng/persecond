@@ -49,7 +49,7 @@ export default function Controls() {
     );
 
   return (
-    <div className="flex h-[120px] w-screen justify-between p-[40px] backdrop-blur-sm">
+    <div className="flex h-full w-screen justify-between p-[40px] backdrop-blur-sm">
       <div className="flex flex-grow" />
 
       <div className="flex flex-grow justify-center">

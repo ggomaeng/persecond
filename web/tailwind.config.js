@@ -14,7 +14,7 @@ module.exports = {
       },
       screens: {
         maxscreen: "1500px",
-        fullscreen: "1280px",
+        fullscreen: "1200px",
         laptop: "1024px",
         detail: "840px",
         tablet: "600px",

@@ -26,7 +26,7 @@ export default function RoomHeader() {
   }, [messages]);
 
   return (
-    <div className="flex h-[80px] w-full items-center justify-between px-5 backdrop-blur-sm tablet:h-[120px] tablet:px-[40px]">
+    <div className="flex h-[80px] w-full items-center justify-between gap-2 px-5 backdrop-blur-sm tablet:h-[120px] tablet:px-[40px]">
       <div className="flex w-full justify-between tablet:items-center">
         <img
           className="mr-2 h-[40px] w-[40px] tablet:mr-[20px]"
@@ -39,7 +39,7 @@ export default function RoomHeader() {
       {/* {session?.started_at === "0" ? (
         <Button
           loading={starting}
-          className="hidden tablet:flex"
+          className="hidden w-[200px] tablet:flex"
           onClick={async () => {
             if (network?.name !== "Devnet") {
               toast("Please switch your network to Devnet", {
@@ -73,17 +73,16 @@ export default function RoomHeader() {
         >
           Start Session
         </Button>
-      ) : ( */}
-      <Button
-        loading={closing}
-        onClick={async () => {
-          if (network?.name !== "Devnet") {
-            toast("Please switch your network to Devnet", {
-              icon: "⚠️",
-            });
-            return;
-          }
-          setClosing(true);
+      ) : (
+        <Button
+          loading={closing}
+          className="hidden w-[200px] tablet:flex"
+          onClick={async () => {
+            if (network?.name !== "Devnet") {
+              toast("Please switch your network to Devnet");
+              return;
+            }
+            setClosing(true);
 
           try {
             const payload = {

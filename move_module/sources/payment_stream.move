@@ -6,7 +6,7 @@ Payment stream for 1:1 video consulting
     4. Upon closing of the session, send payment to the receiver, and refund any remaining funds to the requester
 */
 
-module publisher::payment_stream {
+module publisher::payment_stream_v2 {
     use aptos_framework::coin::{Self, Coin};
     use aptos_framework::timestamp;
     use std::error;

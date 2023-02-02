@@ -18,9 +18,8 @@ module publisher::payment_stream {
     const ERECEIVER_HAS_ALREADY_JOINED: u64 = 1;
     const ERECEIVER_HAS_NOT_JOINED_YET: u64 = 2;
     const ESESSION_HAS_ALREADY_STARTED: u64 = 3;
-    const ESESSION_HAS_NOT_STARTED_YET: u64 = 4;
-    const ESESSION_HAS_ALREADY_FINISHED: u64 = 5;
-    const EPERMISSION_DENIED: u64 = 6;
+    const ESESSION_HAS_ALREADY_FINISHED: u64 = 4;
+    const EPERMISSION_DENIED: u64 = 5;
 
     struct Session<phantom CoinType> has key, store {
         started_at: u64,
@@ -72,11 +71,20 @@ module publisher::payment_stream {
         let account_addr = signer::address_of(account);
         let session = borrow_global_mut<Session<CoinType>>(requester_addr);
 
-        assert!(session.started_at > 0, ESESSION_HAS_NOT_STARTED_YET);
         assert!(session.finished_at == 0, ESESSION_HAS_ALREADY_FINISHED);
         assert!(requester_addr == account_addr || session.receiver == account_addr, EPERMISSION_DENIED);
 
         let current_time = timestamp::now_seconds();
+        let deposit_amount = session.max_duration * session.second_rate;
+
+        // if the session hasn't started yet, refund the full amount to the requester
+        if (session.started_at == 0) {
+            session.finished_at = current_time;
+            let coins_to_refund = coin::withdraw<CoinType>(account, deposit_amount);
+            coin::deposit<CoinType>(requester_addr, coins_to_refund);
+            return
+        };
+
         let finished_at_max = session.started_at + session.max_duration;
         session.finished_at = if (finished_at_max > current_time) {
             current_time
@@ -84,7 +92,6 @@ module publisher::payment_stream {
             finished_at_max
         };
 
-        let deposit_amount = session.max_duration * session.second_rate;
         let payment_amount = (session.finished_at - session.started_at) * session.second_rate;
 
         // send payment to the receiver

@@ -69,16 +69,20 @@ module publisher::payment_stream_v2 {
         let session = borrow_global_mut<Session<CoinType>>(requester_addr);
 
         assert!(session.finished_at == 0, error::invalid_state(ESESSION_HAS_ALREADY_FINISHED));
-        assert!(requester_addr == account_addr || session.receiver == account_addr, error::permission_denied(EPERMISSION_DENIED));
+        assert!(account_addr == requester_addr || account_addr == session.receiver, error::permission_denied(EPERMISSION_DENIED));
 
         let current_time = timestamp::now_seconds();
-        let deposit_amount = session.max_duration * session.second_rate;
+        let deposit_amount = session.max_duration * session.second_rate; // coin::value(session.deposit)
+
+        // get all deposited coins
+        // let all_coins = coin::withdraw<CoinType>(&session.deposit, deposit_amount);
+        // let all_coins = coin::extract(&mut session.deposit, deposit_amount);
+        let all_coins = session.deposit;
 
         // if the session hasn't started yet, refund the full amount to the requester
         if (session.started_at == 0) {
             session.finished_at = current_time;
-            let coins_to_refund = coin::withdraw<CoinType>(account, deposit_amount);
-            coin::deposit<CoinType>(requester_addr, coins_to_refund);
+            coin::deposit<CoinType>(requester_addr, all_coins);
             return
         };
 
@@ -92,12 +96,11 @@ module publisher::payment_stream_v2 {
         let payment_amount = (session.finished_at - session.started_at) * session.second_rate;
 
         // send payment to the receiver
-        let coins_for_receiver = coin::withdraw<CoinType>(account, payment_amount);
+        let coins_for_receiver = coin::extract(all_coins, payment_amount);
         coin::deposit<CoinType>(session.receiver, coins_for_receiver);
 
-        // refund any remaining funds to the requester
-        let coinst_to_refund = coin::withdraw<CoinType>(account, deposit_amount - payment_amount);
-        coin::deposit<CoinType>(requester_addr, coinst_to_refund);
+        // refund any remaining funds to the requester (coins_for_receiver is extracted out of all_coins)
+        coin::deposit<CoinType>(requester_addr, all_coins);
     }
 
     #[view]
@@ -161,7 +164,7 @@ module publisher::payment_stream_v2 {
     }
 
     #[test(aptos_framework = @0x1, requester = @0x123)]
-    public entry fun test_create_session(aptos_framework: &signer, requester: &signer) acquires Session {
+    public fun test_create_session(aptos_framework: &signer, requester: &signer) acquires Session {
         setup(aptos_framework);
         set_up_account(aptos_framework, requester, 10000);
 
@@ -179,5 +182,19 @@ module publisher::payment_stream_v2 {
 
         // Elapsed time
         assert!(elapsed_time<AptosCoin>(requester_addr) == 0, 3); // should not chage if not started
+    }
+
+    #[test(aptos_framework = @0x1, requester = @0x123)]
+    public fun test_full_refund_when_not_started(aptos_framework: &signer, requester: &signer) acquires Session {
+        setup(aptos_framework);
+        set_up_account(aptos_framework, requester, 10000);
+        let requester_addr = signer::address_of(requester);
+
+        create_session<AptosCoin>(requester, 3600, 1);
+        assert!(coin::balance<AptosCoin>(requester_addr) == 10000 - 3600, 1);
+
+        // Should refund the full amount to the requester if not started
+        close_session<AptosCoin>(requester, requester_addr);
+        assert!(coin::balance<AptosCoin>(requester_addr) == 10000, 1);
     }
 }

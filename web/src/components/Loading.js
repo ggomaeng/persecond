@@ -8,11 +8,11 @@ export default function Loading() {
   const setFullLoading = useAppStore((state) => state.setFullLoading);
   const location = useLocation();
 
-  // useEffect(() => {
-  //   setFullLoading(false);
-  // }, [location]);
+  useEffect(() => {
+    setFullLoading(false);
+  }, [location]);
 
-  if (!fullLoading) return null;
+  if (!fullLoading) return;
 
   return (
     <div className="fixed top-0 left-0 z-[9999999999999] flex h-screen w-screen items-center justify-center overflow-clip bg-bg object-contain">

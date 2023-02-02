@@ -18,7 +18,7 @@ module.exports = {
         laptop: "1024px",
         detail: "840px",
         tablet: "600px",
-        mobile: "425px",
+        mobile: "500px",
       },
       keyframes: {
         fade: {

@@ -84,8 +84,8 @@ css-doodle {
       );
     
       will-change: transform, opacity;
-      animation: scale-up 12s linear infinite;
-      animation-delay: calc(-12s / @I * @i);
+      animation: scale-up 18s linear infinite;
+      animation-delay: calc(-18s / @I * @i);
 
       @keyframes scale-up {
         0%, 95.01%, 100% {

@@ -7,13 +7,10 @@ Payment stream for 1:1 video consulting
 */
 
 module publisher::payment_stream {
-    // use aptos_framework::account;
     use aptos_framework::coin::{Self, Coin};
-    // use aptos_framework::event::{Self, EventHandle};
     use aptos_framework::timestamp;
-    // use std::error;
+    use std::error;
     use std::signer;
-    // use std::vector;
 
     const ERECEIVER_HAS_ALREADY_JOINED: u64 = 1;
     const ERECEIVER_HAS_NOT_JOINED_YET: u64 = 2;
@@ -50,7 +47,7 @@ module publisher::payment_stream {
         let receiver_addr = signer::address_of(receiver);
         let session = borrow_global_mut<Session<CoinType>>(requester_addr);
 
-        assert!(session.receiver == @0x0, ERECEIVER_HAS_ALREADY_JOINED);
+        assert!(session.receiver == @0x0, error::invalid_state(ERECEIVER_HAS_ALREADY_JOINED));
 
         session.receiver = receiver_addr;
     }
@@ -60,8 +57,8 @@ module publisher::payment_stream {
         let requester_addr = signer::address_of(requester);
         let session = borrow_global_mut<Session<CoinType>>(requester_addr);
 
-        assert!(session.receiver != @0x0, ERECEIVER_HAS_NOT_JOINED_YET);
-        assert!(session.started_at == 0, ESESSION_HAS_ALREADY_STARTED);
+        assert!(session.receiver != @0x0, error::invalid_state(ERECEIVER_HAS_NOT_JOINED_YET));
+        assert!(session.started_at == 0, error::invalid_state(ESESSION_HAS_ALREADY_STARTED));
 
         session.started_at = timestamp::now_seconds();
     }
@@ -71,8 +68,8 @@ module publisher::payment_stream {
         let account_addr = signer::address_of(account);
         let session = borrow_global_mut<Session<CoinType>>(requester_addr);
 
-        assert!(session.finished_at == 0, ESESSION_HAS_ALREADY_FINISHED);
-        assert!(requester_addr == account_addr || session.receiver == account_addr, EPERMISSION_DENIED);
+        assert!(session.finished_at == 0, error::invalid_state(ESESSION_HAS_ALREADY_FINISHED));
+        assert!(requester_addr == account_addr || session.receiver == account_addr, error::permission_denied(EPERMISSION_DENIED));
 
         let current_time = timestamp::now_seconds();
         let deposit_amount = session.max_duration * session.second_rate;

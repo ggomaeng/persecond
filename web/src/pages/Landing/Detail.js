@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "components/Button";
 import Box from "./Box";
-import { Link } from "react-router-dom";
 import FadeInComponent from "components/FadeInComponent";
 
 const BOX_DATA = [
@@ -52,11 +51,9 @@ export default function Detail() {
           <div>"Best resource</div>
           <div>is fast resource."</div>
         </div>
-        <Link to="/launch">
-          <Button className="mb-[120px] mt-10 flex w-[200px] items-center justify-center font-semibold text-primary mobile:mt-5">
-            Begin new meeting
-          </Button>
-        </Link>
+        <Button className="mb-[120px] mt-10 flex w-[200px] items-center justify-center font-semibold text-primary mobile:mt-5">
+          Begin new meeting
+        </Button>
       </FadeInComponent>
     </div>
   );

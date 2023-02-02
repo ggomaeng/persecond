@@ -99,7 +99,7 @@ export default function Videos(props) {
   };
 
   return (
-    <div className="relative flex h-full flex-grow flex-wrap tablet:gap-[20px]">
+    <div className="relative flex h-full flex-grow flex-wrap gap-[20px]">
       {take([...participants.values()], 2).map(({ id, displayName }) => (
         <VideoComponent
           displayName={displayName}

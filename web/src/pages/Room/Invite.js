@@ -8,7 +8,7 @@ export default function Invite() {
   const link = `${window.location.origin}/join/${wallet}/${roomId}`;
   return (
     <div
-      className={`relative hidden h-full w-full flex-grow flex-col items-center justify-center border border-primary/50 mobile:w-[calc(50%-10px)] tablet:flex`}
+      className={`relative flex h-full w-full flex-grow flex-col items-center justify-center border border-primary/50 mobile:w-[calc(50%-10px)]`}
     >
       <img
         className="h-[80px] w-[80px]"

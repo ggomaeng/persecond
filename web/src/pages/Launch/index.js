@@ -65,7 +65,7 @@ export default function Launch() {
             <div className="mb-2.5 mt-5 text-lg text-primary">Max duration</div>
             <Button
               onClick={() => setIsModal(!isModal)}
-              className="flex h-[54px] w-full justify-start border-input-border px-4 text-start text-lg text-secondary"
+              className="h-[54px] w-full border-input-border px-4 text-start text-lg text-secondary"
               image="/assets/arrow-down.svg"
               imageClassName={`absolute right-4 top-4 ${
                 isModal && "rotate-180"
@@ -193,7 +193,7 @@ export default function Launch() {
           setDuration(value);
           setIsModal(false);
         }}
-        className="flex h-[54px] w-full justify-start border-input-border px-4 text-start text-lg text-secondary"
+        className="h-[54px] w-full border-input-border px-4 text-start text-lg text-secondary"
       >
         {handleDurationTitle(value)}
       </Button>

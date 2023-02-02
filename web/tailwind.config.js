@@ -42,6 +42,7 @@ module.exports = {
         growY: "growY 1.5s ease-in-out forwards",
         rotate180: "rotate180 1.5s ease-in-out forwards",
         "pop-by-sec": "pop 1s infinite",
+        fadeIn: "fade 1.5s ease-in-out forwards",
       },
       fontSize: {
         "3xl": ["32px", "40px"],

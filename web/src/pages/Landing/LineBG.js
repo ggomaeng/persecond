@@ -59,7 +59,7 @@ export default function LineBG() {
       />
       <div className="flex-grow bg-transparent" />
       <div
-        className={`absolute left-0 top-[60%] w-[100%] animate-rotate180 rounded-full border-b-2 border-dashed border-white/10 bg-transparent pb-[100%] transition-colors duration-500 mobile:top-[60%] ${
+        className={`absolute left-0 top-[60%] w-[100%] animate-rotate180 rounded-full border-b-2 border-dashed border-white/10 bg-transparent pb-[100%] transition-colors duration-500 mobile:top-[65%] ${
           animationDone ? "border-white" : "border-white/10"
         }`}
         style={{

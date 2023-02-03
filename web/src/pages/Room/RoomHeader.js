@@ -27,18 +27,48 @@ export default function RoomHeader() {
   return (
     <div className="flex h-[80px] w-screen items-center justify-between px-[20px] backdrop-blur-sm tablet:h-[120px] tablet:px-[40px]">
       <div className="flex items-center">
-        <Link to="/">
-          <div className="mr-[20px] flex items-center">
+        <div className="mr-[20px] flex items-center">
+          <Link to="/">
             <img
               className="h-[40px] w-[40px]"
               src="/assets/logo-single@2x.png"
               alt="logo"
             />
-            <div className="ml-[10px] rounded-full bg-primary px-2 py-1 text-xs text-black">
-              Testnet
-            </div>
+          </Link>
+          <div
+            className="ml-[10px] rounded-full bg-primary px-2 py-1 text-xs text-black"
+            onClick={async (e) => {
+              e.stopPropagation();
+              if (network?.name !== "Testnet") {
+                toast("Please switch your network to Testnet", {
+                  icon: "⚠️",
+                });
+                return;
+              }
+              try {
+                const payload = {
+                  type: "entry_function_payload",
+                  function: `${CONTRACT_ADDRESS}::start_session`,
+                  type_arguments: ["0x1::aptos_coin::AptosCoin"],
+                  arguments: [], // 1 is in Octas
+                };
+
+                const response = await signAndSubmitTransaction(payload);
+                // if you want to wait for transaction
+                await aptosClient.waitForTransaction(response?.hash || "");
+                console.log(response, response?.hash);
+              } catch (error) {
+                toastError(error);
+              }
+              // const result = await api.post("").json();
+              // const { wallet, id } = result;
+              // navigate(`/rooms/${wallet}`);
+              // console.log(result);
+            }}
+          >
+            Testnet
           </div>
-        </Link>
+        </div>
         <ConnectWalletButton className="hidden tablet:flex" />
       </div>
       {/* <div className="ml-[20px] text-[22px]">Some cool room title</div> */}

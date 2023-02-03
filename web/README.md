@@ -1,70 +1,81 @@
-# Getting Started with Create React App
+![badge](https://img.shields.io/badge/-Aptos-black)
+![badge](https://img.shields.io/badge/-Powered-white)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<blockquote align="center">
+<br/>
+<br/>
+<a href="https://persecond.live" target="_blank">
+🎨 persecond.live
+</a>
+<p>Demo</p>
+<br/>
+<a href="https://github.com/ggomaeng/persecond/tree/master/move_module" target="_blank">
+📜 Move Modules
+</a>
+<p>Modules</p>
+<br/>
+<br/>
+</blockquote>
 
-## Available Scripts
+- [perSecond 👋🏻](#persecond-)
+	- [Our goal roadmap for Aptos Hackathon 📝](#our-goal-roadmap-for-aptos-hackathon-)
+	- [Contracts 📜](#contracts-)
+	- [What we could've done better 🤔](#what-we-couldve-done-better-)
+	- [Web Development Stack Used](#web-development-stack-used)
+	- [Development Environment](#development-environment)
 
-In the project directory, you can run:
+![image](public/og-image-1200-800.png)
 
-### `npm start`
+# perSecond 👋🏻
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+> Generate a meeting link and share it with the intended expert, setting the time-based payment stream via Aptos Blockchain.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Our goal roadmap for Aptos Hackathon 📝
 
-### `npm test`
+- [x] Start our ideation & product building from scratch at the hackathon for ultimate challenge and fun 🥳
+- [x] Store session information on Aptos Blockchain
+- [x] Support Multiple wallets within our dApp
+- [x] Experimental UI/UX
+- [x] Video call using WebRTC
+- [x] Meeting Launch Page
+- [x] Video Call Page
+  - [x] Dynamic link generation
+- [x] Join Call Page
+- [x] Tx Receipt Page
+  - [x] Chat functionality
+  - [ ] To be implemented: Screen Sharing
+  - [ ] To be implemented: 1:N Video Call
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Contracts 📜
 
-### `npm run build`
+> More information about the contract can be found the [📦 Contract Github Repository](https://github.com/ggomaeng/persecond/tree/master/move_module)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## What we could've done better 🤔
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Unit test code for front-end is lacking.
+- Whitelist functionality using merkel tree
+- Dashboard page
+- Scheduled call
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Web Development Stack Used
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- React.js
+- Zustand
+- @aptos-labs/wallet-adapter-react
+- Tailwind for CSS styling
+- 👉🏻 [Move Modules](https://github.com/ggomaeng/persecond/tree/master/move_module)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Development Environment
 
-## Learn More
+```shell
+npm install
+npm start
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

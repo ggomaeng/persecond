@@ -21,6 +21,7 @@ module publisher::per_second_v8 {
     const ESESSION_HAS_ALREADY_STARTED: u64 = 4;
     const ESESSION_HAS_ALREADY_FINISHED: u64 = 5;
     const EPERMISSION_DENIED: u64 = 6;
+    const EINSUFFICIENT_BALANCE: u64 = 7;
 
     struct Session<phantom CoinType> has key, store {
         started_at: u64,
@@ -70,7 +71,10 @@ module publisher::per_second_v8 {
     // 1. A requester can initiate a payment stream session for a video call.
     public entry fun create_session<CoinType>(requester: &signer, max_duration: u64, second_rate: u64, room_id: string::String) acquires Session {
         let requester_addr = signer::address_of(requester);
+        let balance = coin::balance<CoinType>(requester_addr);
         let deposit_amount = max_duration * second_rate;
+
+        assert!(deposit_amount <= balance, error::invalid_argument(EINSUFFICIENT_BALANCE));
 
         if (exists<Session<CoinType>>(requester_addr)) {
             let session = borrow_global_mut<Session<CoinType>>(requester_addr);

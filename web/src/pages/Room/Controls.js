@@ -6,7 +6,7 @@ import MicOnIcon from "pages/Room/Icons/MicOnIcon.js";
 import WebcamOnIcon from "pages/Room/Icons/WebcamOnIcon.js";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRoomStore } from "stores/room.js";
 import { aptosClient, CONTRACT_ADDRESS } from "utils/aptos.js";
 import { toastError } from "utils/toasts.js";
@@ -18,6 +18,7 @@ export default function Controls() {
   const { network, signAndSubmitTransaction } = useWallet();
   const { publish } = usePubSub("TRANSACTION_END");
   const [closing, setClosing] = useState(false);
+  const navigate = useNavigate();
   const [mics, setMics] = useState([]);
   const [cams, setCams] = useState([]);
   const {
@@ -42,6 +43,7 @@ export default function Controls() {
     (state) => state.setMobileChatVisible
   );
   const messageCount = useRoomStore((state) => state.messageCount);
+  const canStart = useRoomStore((state) => state.canStart);
 
   async function onMeetingJoined() {
     try {
@@ -116,7 +118,12 @@ export default function Controls() {
               const response = await signAndSubmitTransaction(payload);
               // if you want to wait for transaction
               await aptosClient.waitForTransaction(response?.hash || "");
-              await publish(response.hash);
+
+              if (!canStart) {
+                navigate(`/refund/${response.hash}`);
+              } else {
+                await publish(response.hash);
+              }
               console.log(response, response?.hash);
             } catch (error) {
               toastError(error);

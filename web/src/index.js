@@ -15,6 +15,7 @@ import {
 } from "react-router-dom";
 import Result from "pages/Result/index.js";
 import Room from "pages/Room/index.js";
+import Refund from "pages/Refund/index.js";
 
 const router = createBrowserRouter([
   {
@@ -34,12 +35,16 @@ const router = createBrowserRouter([
         element: <Join />,
       },
       {
+        path: "room/:wallet/:roomId",
+        element: <Room />,
+      },
+      {
         path: "result/:hash",
         element: <Result />,
       },
       {
-        path: "room/:wallet/:roomId",
-        element: <Room />,
+        path: "refund/:hash",
+        element: <Refund />,
       },
     ],
   },

@@ -61,7 +61,7 @@ export default function Expert() {
             {formatHours(diff / 3600)}
           </div>
         </ResultItem>
-        <ResultItem title="Final amount you earned">
+        <ResultItem title="Final amount">
           <div className="text-end text-sm">
             {aptosToDigits(data?.second_rate)} APT / sec
           </div>

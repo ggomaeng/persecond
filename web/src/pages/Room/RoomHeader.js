@@ -13,8 +13,7 @@ export default function RoomHeader() {
   const { wallet } = useParams();
   const { network, signAndSubmitTransaction } = useWallet();
   const { publish, messages } = usePubSub("TRANSACTION_END");
-  const [starting, setStarting] = useState(false);
-  const session = useRoomStore((state) => state.session);
+  const canStart = useRoomStore((state) => state.canStart);
   const navigate = useNavigate();
   const [closing, setClosing] = useState(false);
 
@@ -104,7 +103,12 @@ export default function RoomHeader() {
             const response = await signAndSubmitTransaction(payload);
             // if you want to wait for transaction
             await aptosClient.waitForTransaction(response?.hash || "");
-            await publish(response.hash);
+
+            if (!canStart) {
+              navigate(`/refund/${response.hash}`);
+            } else {
+              await publish(response.hash);
+            }
             console.log(response, response?.hash);
           } catch (error) {
             toastError(error);

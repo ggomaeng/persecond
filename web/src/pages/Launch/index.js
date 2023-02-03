@@ -9,6 +9,7 @@ import useAptosBalance from "hooks/useAptosBalance.js";
 import React from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useAppStore } from "stores/app.js";
 import { useLaunchStore } from "stores/create";
 import { api } from "utils/api.js";
 import { aptosClient, CONTRACT_ADDRESS } from "utils/aptos.js";
@@ -28,6 +29,7 @@ export default function Launch() {
   const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
   const notEnoughBalance = +balance < duration * price;
+  const setFullLoading = useAppStore((state) => state.setFullLoading);
 
   return (
     <div className="my-[100px] flex flex-col justify-center padded-horizontal mobile:pt-[100px]">
@@ -176,6 +178,7 @@ export default function Launch() {
             // if you want to wait for transaction
             await aptosClient.waitForTransaction(response?.hash || "");
             console.log(response, response?.hash);
+            setFullLoading(true);
             navigate(`/room/${account?.address}/${roomId}`);
           } catch (e) {
             toastError(e);

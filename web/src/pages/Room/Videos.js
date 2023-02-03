@@ -47,7 +47,6 @@ export default function Videos(props) {
       try {
         const session = await getSession(wallet);
         const { started_at } = session;
-        console.log(session);
         setSession(session);
         if (started_at !== "0" && participants.size >= 2) {
           toast.success("Session started");
@@ -61,7 +60,7 @@ export default function Videos(props) {
 
     console.log(participants.size);
     checkSigned();
-    interval = setInterval(checkSigned, 20000); //TODO - remember to change back to 2000
+    interval = setInterval(checkSigned, 1500);
 
     return () => interval && clearInterval(interval);
   }, [participants]);

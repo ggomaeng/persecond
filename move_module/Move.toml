@@ -9,7 +9,10 @@ publisher = "_"
 [dev-addresses]
 publisher = "0xC0FFEE"
 
+[test-addresses]
+publisher = "0xC0FFEE"
+
 [dependencies.AptosFramework]
 git = 'https://github.com/aptos-labs/aptos-core.git'
-rev = 'testnet'
+rev = 'devnet'
 subdir = 'aptos-move/framework/aptos-framework'

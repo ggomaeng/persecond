@@ -7,7 +7,7 @@ import FadeInComponent from "components/FadeInComponent";
 
 export default function HostResult() {
   return (
-    <div className="flex h-screen flex-col items-center justify-center padded-horizontal">
+    <div className="flex min-h-screen flex-col items-center justify-center py-[40px] pb-[200px] padded-horizontal">
       <Link to="/">
         <Button className="flex w-[200px] justify-center">Go home</Button>
       </Link>

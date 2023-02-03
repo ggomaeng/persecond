@@ -44,7 +44,7 @@ module.exports = {
         },
         growY90: {
           "0%": { minHeight: 0 },
-          "100%": { minHeight: "88%" },
+          "100%": { minHeight: "87%" },
         },
         rotate180: {
           "0%": { transform: "rotate(0deg)" },
@@ -56,8 +56,8 @@ module.exports = {
         },
         pop: {
           "0%": { transform: "scale(1)", opacity: "1" },
-          "12%": { transform: "scale(1.05)", opacity: "0.8" },
-          "20%,100%": { transform: "scale(1)", opacity: "1" },
+          "3%": { transform: "scale(1.05)", opacity: "0.8" },
+          "15%,100%": { transform: "scale(1)", opacity: "1" },
         },
       },
       animation: {

@@ -7,7 +7,7 @@
 <br/>
 <br/>
 <a href="https://persecond.live" target="_blank">
-🎨 persecond.live
+👀 persecond.live
 </a>
 <p>Demo</p>
 <br/>
@@ -17,7 +17,7 @@
 <p>GitHub</p>
 <br/>
 <a href="https://github.com/ggomaeng/persecond/tree/master/web" target="_blank">
-📜 Web Repo
+🌍 Web Repo
 </a>
 <p>GitHub</p>
 <br/>

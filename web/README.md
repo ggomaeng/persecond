@@ -5,7 +5,7 @@
 <br/>
 <br/>
 <a href="https://persecond.live" target="_blank">
-🎨 persecond.live
+👀 persecond.live
 </a>
 <p>Demo</p>
 <br/>

@@ -55,9 +55,8 @@ module.exports = {
           "100%": { transform: "rotate(360deg)" },
         },
         pop: {
-          "0%": { transform: "scale(1)", opacity: "1" },
+          "0,15%,100%": { transform: "scale(1)", opacity: "1" },
           "3%": { transform: "scale(1.05)", opacity: "0.8" },
-          "15%,100%": { transform: "scale(1)", opacity: "1" },
         },
       },
       animation: {

@@ -1,11 +1,11 @@
 import FadeInComponent from "components/FadeInComponent";
 import React from "react";
 
-export default function Box(data) {
-  const { detail, image, title } = data;
+export default function DetailBox(data) {
+  const { detail, image, title, delay } = data;
 
   return (
-    <FadeInComponent>
+    <FadeInComponent delay={delay}>
       <div className="mx-3 flex h-[220px] w-full max-w-[360px] flex-col justify-start bg-option-border p-5 mobile:mx-0 mobile:h-[300px] mobile:w-[300px]">
         <img
           src={image}

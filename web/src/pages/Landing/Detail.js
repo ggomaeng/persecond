@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "components/Button";
-import Box from "./Box";
+import DetailBox from "./DetailBox";
 import { Link } from "react-router-dom";
 import FadeInComponent from "components/FadeInComponent";
 
@@ -43,7 +43,13 @@ export default function Detail() {
         {BOX_DATA.map((data, index) => {
           const { image, title, detail } = data;
           return (
-            <Box key={index} image={image} title={title} detail={detail} />
+            <DetailBox
+              delay={index / 3}
+              key={index}
+              image={image}
+              title={title}
+              detail={detail}
+            />
           );
         })}
       </div>

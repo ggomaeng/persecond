@@ -5,7 +5,7 @@ import FadeInComponent from "components/FadeInComponent";
 import ResultItem from "pages/Result/ResultItem.js";
 import { useAppStore } from "stores/app.js";
 import { aptosClient } from "utils/aptos.js";
-import { aptosToDigits, fixDecimalPlaces } from "utils/numbers.js";
+import { aptosToDigits } from "utils/numbers.js";
 
 export default function Refund() {
   const { hash } = useParams();
